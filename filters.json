@@ -1,0 +1,13 @@
+[ { "Type": "TERM_MATCH"
+  , "Field": "operatingSystem"
+  , "Value": "Linux"
+  }
+, { "Type": "TERM_MATCH"
+  , "Field": "capacitystatus"
+  , "Value": "Used"
+  }
+, { "Type": "TERM_MATCH"
+  , "Field": "tenancy"
+  , "Value": "Shared"
+  }
+]
