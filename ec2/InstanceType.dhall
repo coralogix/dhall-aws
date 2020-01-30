@@ -981,6 +981,7 @@ in  { Type = InstanceType
     , upsize = upsize
     , specs = specs
     , alternatives = alternatives
+    , c5-large = InstanceType.c5-large
     , c5-xlarge = InstanceType.c5-xlarge
     , c5-2xlarge = InstanceType.c5-2xlarge
     , c5-4xlarge = InstanceType.c5-4xlarge
