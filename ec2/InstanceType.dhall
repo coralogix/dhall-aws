@@ -7,6 +7,10 @@ let InstanceType =
       | c5-xlarge
       | c5-2xlarge
       | c5-4xlarge
+      | c5n-large
+      | c5n-xlarge
+      | c5n-2xlarge
+      | c5n-4xlarge
       | m4-large
       | m4-xlarge
       | m4-2xlarge
@@ -55,6 +59,10 @@ let test-util =
           , InstanceType.c5-xlarge
           , InstanceType.c5-2xlarge
           , InstanceType.c5-4xlarge
+          , InstanceType.c5n-large
+          , InstanceType.c5n-xlarge
+          , InstanceType.c5n-2xlarge
+          , InstanceType.c5n-4xlarge
           , InstanceType.m4-large
           , InstanceType.m4-xlarge
           , InstanceType.m4-2xlarge
@@ -106,6 +114,10 @@ let render
           , c5-xlarge = "c5.xlarge"
           , c5-2xlarge = "c5.2xlarge"
           , c5-4xlarge = "c5.4xlarge"
+          , c5n-large = "c5n.large"
+          , c5n-xlarge = "c5n.xlarge"
+          , c5n-2xlarge = "c5n.2xlarge"
+          , c5n-4xlarge = "c5n.4xlarge"
           , m4-large = "m4.large"
           , m4-xlarge = "m4.xlarge"
           , m4-2xlarge = "m4.2xlarge"
@@ -159,6 +171,10 @@ let specs =
                     , c5-xlarge = 4
                     , c5-2xlarge = 8
                     , c5-4xlarge = 16
+                    , c5n-large = 2
+                    , c5n-xlarge = 4
+                    , c5n-2xlarge = 8
+                    , c5n-4xlarge = 16
                     , m4-large = 2
                     , m4-xlarge = 4
                     , m4-2xlarge = 8
@@ -208,50 +224,54 @@ let specs =
               : InstanceType → Natural
               =   λ(instanceType : InstanceType)
                 → merge
-                    { c5-large = 4
-                    , c5-xlarge = 8
-                    , c5-2xlarge = 16
-                    , c5-4xlarge = 32
-                    , m4-large = 8
-                    , m4-xlarge = 16
-                    , m4-2xlarge = 32
-                    , m4-4xlarge = 64
-                    , m5-large = 8
-                    , m5-xlarge = 16
-                    , m5-2xlarge = 32
-                    , m5-4xlarge = 64
-                    , m5d-large = 8
-                    , m5d-xlarge = 16
-                    , m5d-2xlarge = 32
-                    , m5d-4xlarge = 64
-                    , m5a-large = 8
-                    , m5a-xlarge = 16
-                    , m5a-2xlarge = 32
-                    , m5a-4xlarge = 64
-                    , m5ad-large = 8
-                    , m5ad-xlarge = 16
-                    , m5ad-2xlarge = 32
-                    , m5ad-4xlarge = 64
-                    , m5n-large = 8
-                    , m5n-xlarge = 16
-                    , m5n-2xlarge = 32
-                    , m5n-4xlarge = 64
-                    , m5dn-large = 8
-                    , m5dn-xlarge = 16
-                    , m5dn-2xlarge = 32
-                    , m5dn-4xlarge = 64
-                    , r5-large = 16
-                    , r5-xlarge = 32
-                    , r5-2xlarge = 64
-                    , r5-4xlarge = 128
-                    , r5a-large = 16
-                    , r5a-xlarge = 32
-                    , r5a-2xlarge = 64
-                    , r5a-4xlarge = 128
-                    , r5n-large = 16
-                    , r5n-xlarge = 32
-                    , r5n-2xlarge = 64
-                    , r5n-4xlarge = 128
+                    { c5-large = 4000
+                    , c5-xlarge = 8000
+                    , c5-2xlarge = 16000
+                    , c5-4xlarge = 32000
+                    , c5n-large = 5250
+                    , c5n-xlarge = 10500
+                    , c5n-2xlarge = 21000
+                    , c5n-4xlarge = 42000
+                    , m4-large = 8000
+                    , m4-xlarge = 16000
+                    , m4-2xlarge = 32000
+                    , m4-4xlarge = 64000
+                    , m5-large = 8000
+                    , m5-xlarge = 16000
+                    , m5-2xlarge = 32000
+                    , m5-4xlarge = 64000
+                    , m5d-large = 8000
+                    , m5d-xlarge = 16000
+                    , m5d-2xlarge = 32000
+                    , m5d-4xlarge = 64000
+                    , m5a-large = 8000
+                    , m5a-xlarge = 16000
+                    , m5a-2xlarge = 32000
+                    , m5a-4xlarge = 64000
+                    , m5ad-large = 8000
+                    , m5ad-xlarge = 16000
+                    , m5ad-2xlarge = 32000
+                    , m5ad-4xlarge = 64000
+                    , m5n-large = 8000
+                    , m5n-xlarge = 16000
+                    , m5n-2xlarge = 32000
+                    , m5n-4xlarge = 64000
+                    , m5dn-large = 8000
+                    , m5dn-xlarge = 16000
+                    , m5dn-2xlarge = 32000
+                    , m5dn-4xlarge = 64000
+                    , r5-large = 16000
+                    , r5-xlarge = 32000
+                    , r5-2xlarge = 64000
+                    , r5-4xlarge = 128000
+                    , r5a-large = 16000
+                    , r5a-xlarge = 32000
+                    , r5a-2xlarge = 64000
+                    , r5a-4xlarge = 128000
+                    , r5n-large = 16000
+                    , r5n-xlarge = 32000
+                    , r5n-2xlarge = 64000
+                    , r5n-4xlarge = 128000
                     }
                     instanceType
           
@@ -273,10 +293,14 @@ let alternatives =
           =   λ(_params : Parameters.Type)
             → λ(instanceType : InstanceType)
             → merge
-                { c5-large = [] : List InstanceType
-                , c5-xlarge = [] : List InstanceType
-                , c5-2xlarge = [] : List InstanceType
-                , c5-4xlarge = [] : List InstanceType
+                { c5-large = [ InstanceType.c5n-large ] : List InstanceType
+                , c5-xlarge = [ InstanceType.c5n-xlarge ] : List InstanceType
+                , c5-2xlarge = [ InstanceType.c5n-2xlarge ] : List InstanceType
+                , c5-4xlarge = [ InstanceType.c5n-4xlarge ] : List InstanceType
+                , c5n-large = [] : List InstanceType
+                , c5n-xlarge = [] : List InstanceType
+                , c5n-2xlarge = [] : List InstanceType
+                , c5n-4xlarge = [] : List InstanceType
                 , m4-large =
                     [ InstanceType.m5-large
                     , InstanceType.m5d-large
@@ -910,7 +934,7 @@ let alternatives =
                                     (   λ ( alternativeInstanceType
                                           : InstanceType
                                           )
-                                      → Prelude.Natural.equal
+                                      → Prelude.Natural.lessThanEqual
                                           (spec instanceType)
                                           (spec alternativeInstanceType)
                                     )
@@ -933,6 +957,10 @@ let upsize
           , c5-xlarge = Some InstanceType.c5-2xlarge
           , c5-2xlarge = Some InstanceType.c5-4xlarge
           , c5-4xlarge = None InstanceType
+          , c5n-large = Some InstanceType.c5n-xlarge
+          , c5n-xlarge = Some InstanceType.c5n-2xlarge
+          , c5n-2xlarge = Some InstanceType.c5n-4xlarge
+          , c5n-4xlarge = None InstanceType
           , m4-large = Some InstanceType.m4-xlarge
           , m4-xlarge = Some InstanceType.m4-2xlarge
           , m4-2xlarge = Some InstanceType.m4-4xlarge
@@ -985,6 +1013,10 @@ in  { Type = InstanceType
     , c5-xlarge = InstanceType.c5-xlarge
     , c5-2xlarge = InstanceType.c5-2xlarge
     , c5-4xlarge = InstanceType.c5-4xlarge
+    , c5n-large = InstanceType.c5n-large
+    , c5n-xlarge = InstanceType.c5n-xlarge
+    , c5n-2xlarge = InstanceType.c5n-2xlarge
+    , c5n-4xlarge = InstanceType.c5n-4xlarge
     , m4-large = InstanceType.m4-large
     , m4-xlarge = InstanceType.m4-xlarge
     , m4-2xlarge = InstanceType.m4-2xlarge
