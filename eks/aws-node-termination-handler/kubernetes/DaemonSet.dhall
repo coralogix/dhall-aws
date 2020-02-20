@@ -264,6 +264,7 @@ in    λ ( common
                                 }
                               ]
                           , nodeSelector = common.settings.pod.nodeSelector
+                          , tolerations = common.settings.pod.tolerations
                           }
                 }
             }

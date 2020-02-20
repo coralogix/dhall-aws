@@ -1,4 +1,8 @@
-let Prelude = (../../imports.dhall).Prelude
+let imports = ../../imports.dhall
+
+let Prelude = imports.Prelude
+
+let Kubernetes = imports.Kubernetes
 
 let Pod =
       let Image =
@@ -21,6 +25,7 @@ let Pod =
               , nodeSelector : Optional (Prelude.Map.Type Text Text)
               , procUptimeFile : Text
               , resources : Resources.Type
+              , tolerations : Optional (List Kubernetes.Toleration.Type)
               }
           , default =
               { image = Image.default
@@ -28,6 +33,7 @@ let Pod =
               , nodeSelector = None (Prelude.Map.Type Text Text)
               , procUptimeFile = "/proc/uptime"
               , resources = Resources.default
+              , tolerations = None (List Kubernetes.Toleration.Type)
               }
           , Image = Image
           , Resources = Resources
