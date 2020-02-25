@@ -7,6 +7,10 @@ let InstanceType =
       | c5-xlarge
       | c5-2xlarge
       | c5-4xlarge
+      | c5d-large
+      | c5d-xlarge
+      | c5d-2xlarge
+      | c5d-4xlarge
       | c5n-large
       | c5n-xlarge
       | c5n-2xlarge
@@ -59,6 +63,10 @@ let test-util =
           , InstanceType.c5-xlarge
           , InstanceType.c5-2xlarge
           , InstanceType.c5-4xlarge
+          , InstanceType.c5d-large
+          , InstanceType.c5d-xlarge
+          , InstanceType.c5d-2xlarge
+          , InstanceType.c5d-4xlarge
           , InstanceType.c5n-large
           , InstanceType.c5n-xlarge
           , InstanceType.c5n-2xlarge
@@ -114,6 +122,10 @@ let render
           , c5-xlarge = "c5.xlarge"
           , c5-2xlarge = "c5.2xlarge"
           , c5-4xlarge = "c5.4xlarge"
+          , c5d-large = "c5d.large"
+          , c5d-xlarge = "c5d.xlarge"
+          , c5d-2xlarge = "c5d.2xlarge"
+          , c5d-4xlarge = "c5d.4xlarge"
           , c5n-large = "c5n.large"
           , c5n-xlarge = "c5n.xlarge"
           , c5n-2xlarge = "c5n.2xlarge"
@@ -171,6 +183,10 @@ let specs =
                     , c5-xlarge = 4
                     , c5-2xlarge = 8
                     , c5-4xlarge = 16
+                    , c5d-large = 2
+                    , c5d-xlarge = 4
+                    , c5d-2xlarge = 8
+                    , c5d-4xlarge = 16
                     , c5n-large = 2
                     , c5n-xlarge = 4
                     , c5n-2xlarge = 8
@@ -228,6 +244,10 @@ let specs =
                     , c5-xlarge = 8000
                     , c5-2xlarge = 16000
                     , c5-4xlarge = 32000
+                    , c5d-large = 4000
+                    , c5d-xlarge = 8000
+                    , c5d-2xlarge = 16000
+                    , c5d-4xlarge = 32000
                     , c5n-large = 5250
                     , c5n-xlarge = 10500
                     , c5n-2xlarge = 21000
@@ -293,10 +313,66 @@ let alternatives =
           =   λ(_params : Parameters.Type)
             → λ(instanceType : InstanceType)
             → merge
-                { c5-large = [ InstanceType.c5n-large ] : List InstanceType
-                , c5-xlarge = [ InstanceType.c5n-xlarge ] : List InstanceType
-                , c5-2xlarge = [ InstanceType.c5n-2xlarge ] : List InstanceType
-                , c5-4xlarge = [ InstanceType.c5n-4xlarge ] : List InstanceType
+                { c5-large =
+                      [ InstanceType.c5d-large, InstanceType.c5n-large ]
+                    : List InstanceType
+                , c5-xlarge =
+                      [ InstanceType.c5d-xlarge, InstanceType.c5n-xlarge ]
+                    : List InstanceType
+                , c5-2xlarge =
+                      [ InstanceType.c5d-2xlarge, InstanceType.c5n-2xlarge ]
+                    : List InstanceType
+                , c5-4xlarge =
+                      [ InstanceType.c5d-4xlarge, InstanceType.c5n-4xlarge ]
+                    : List InstanceType
+                , c5d-large =
+                    let diskfree = [ InstanceType.c5n-large ]
+                    
+                    let withdisk = [] : List InstanceType
+                    
+                    in    withdisk
+                        # (       if _params.permitLosingLocalDisk
+                            
+                            then  diskfree
+                            
+                            else  [] : List InstanceType
+                          )
+                , c5d-xlarge =
+                    let diskfree = [ InstanceType.c5n-xlarge ]
+                    
+                    let withdisk = [] : List InstanceType
+                    
+                    in    withdisk
+                        # (       if _params.permitLosingLocalDisk
+                            
+                            then  diskfree
+                            
+                            else  [] : List InstanceType
+                          )
+                , c5d-2xlarge =
+                    let diskfree = [ InstanceType.c5n-2xlarge ]
+                    
+                    let withdisk = [] : List InstanceType
+                    
+                    in    withdisk
+                        # (       if _params.permitLosingLocalDisk
+                            
+                            then  diskfree
+                            
+                            else  [] : List InstanceType
+                          )
+                , c5d-4xlarge =
+                    let diskfree = [ InstanceType.c5n-4xlarge ]
+                    
+                    let withdisk = [] : List InstanceType
+                    
+                    in    withdisk
+                        # (       if _params.permitLosingLocalDisk
+                            
+                            then  diskfree
+                            
+                            else  [] : List InstanceType
+                          )
                 , c5n-large = [] : List InstanceType
                 , c5n-xlarge = [] : List InstanceType
                 , c5n-2xlarge = [] : List InstanceType
@@ -957,6 +1033,10 @@ let upsize
           , c5-xlarge = Some InstanceType.c5-2xlarge
           , c5-2xlarge = Some InstanceType.c5-4xlarge
           , c5-4xlarge = None InstanceType
+          , c5d-large = Some InstanceType.c5d-xlarge
+          , c5d-xlarge = Some InstanceType.c5d-2xlarge
+          , c5d-2xlarge = Some InstanceType.c5d-4xlarge
+          , c5d-4xlarge = None InstanceType
           , c5n-large = Some InstanceType.c5n-xlarge
           , c5n-xlarge = Some InstanceType.c5n-2xlarge
           , c5n-2xlarge = Some InstanceType.c5n-4xlarge
@@ -1013,6 +1093,10 @@ in  { Type = InstanceType
     , c5-xlarge = InstanceType.c5-xlarge
     , c5-2xlarge = InstanceType.c5-2xlarge
     , c5-4xlarge = InstanceType.c5-4xlarge
+    , c5d-large = InstanceType.c5d-large
+    , c5d-xlarge = InstanceType.c5d-xlarge
+    , c5d-2xlarge = InstanceType.c5d-2xlarge
+    , c5d-4xlarge = InstanceType.c5d-4xlarge
     , c5n-large = InstanceType.c5n-large
     , c5n-xlarge = InstanceType.c5n-xlarge
     , c5n-2xlarge = InstanceType.c5n-2xlarge
