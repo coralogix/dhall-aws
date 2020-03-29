@@ -23,7 +23,7 @@ let definition
     =   λ(settings : Settings.Type)
       → let labels =
               let selector = toMap { `app.kubernetes.io/name` = name }
-              
+
               in  { selector = selector
                   , package =
                         selector
@@ -33,15 +33,14 @@ let definition
                           , `app.kubernetes.io/managed-by` = "dhall"
                           }
                   }
-        
+
         in  { name = name
             , labels = labels
-            , metadata =
-                Kubernetes.ObjectMeta::{
-                , name = name
-                , labels = Some labels.package
-                , namespace = Some settings.pod.namespace
-                }
+            , metadata = Kubernetes.ObjectMeta::{
+              , name = name
+              , labels = Some labels.package
+              , namespace = Some settings.pod.namespace
+              }
             , settings = settings
             }
 

@@ -5,14 +5,14 @@ let render =
           let render
               : Region → Text
               = λ(region : Region) → merge { eu-west-1 = "eu-west-1" } region
-          
+
           in  render
       , human =
           let render
               : Region → Text
               =   λ(region : Region)
                 → merge { eu-west-1 = "Europe (Ireland)" } region
-          
+
           in  render
       }
 

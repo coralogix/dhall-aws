@@ -1,1 +1,1 @@
-{ Policy = ./Policy.dhall }
+{ PolicyDocument = ./PolicyDocument.dhall, util = ./util.dhall }
