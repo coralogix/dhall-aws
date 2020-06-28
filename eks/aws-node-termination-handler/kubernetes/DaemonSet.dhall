@@ -164,6 +164,12 @@ in    λ(common : Common.Type)
                                           common.settings.notifications.webhook.url
                                     }
                                   , Kubernetes.EnvVar::{
+                                    , name = "WEBHOOK_PROXY"
+                                    , value =
+                                        render.optional-text
+                                          common.settings.notifications.webhook.proxy
+                                    }
+                                  , Kubernetes.EnvVar::{
                                     , name = "WEBHOOK_HEADERS"
                                     , value =
                                         render.optional-text
@@ -192,22 +198,54 @@ in    λ(common : Common.Type)
                                         render.bool
                                           common.settings.flags.enableScheduledEventDraining
                                     }
+                                  , Kubernetes.EnvVar::{
+                                    , name = "CORDON_ONLY"
+                                    , value =
+                                        render.bool
+                                          common.settings.flags.cordonOnly
+                                    }
+                                  , Kubernetes.EnvVar::{
+                                    , name = "JSON_LOGGING"
+                                    , value =
+                                        render.bool
+                                          common.settings.flags.jsonLogging
+                                    }
+                                  , Kubernetes.EnvVar::{
+                                    , name = "ENABLE_PROMETHEUS_SERVER"
+                                    , value =
+                                        render.bool
+                                          common.settings.prometheus.enable
+                                    }
+                                  , Kubernetes.EnvVar::{
+                                    , name = "PROMETHEUS_SERVER_PORT"
+                                    , value = Some common.settings.prometheus.port
+                                    }
                                   ]
                         , resources =
-                            let unified =
+                            let requests =
                                   Some
                                     ( toMap
                                         { cpu =
-                                            common.settings.pod.resources.cpu
+                                            common.settings.pod.resources.requests.cpu
                                         , memory =
-                                            common.settings.pod.resources.memory
+                                            common.settings.pod.resources.requests.memory
+                                        }
+                                    )
+
+                            let limits =
+                                  Some
+                                    ( toMap
+                                        { cpu =
+                                            common.settings.pod.resources.limits.cpu
+                                        , memory =
+                                            common.settings.pod.resources.limits.memory
                                         }
                                     )
 
                             in  Some
                                   Kubernetes.ResourceRequirements::{
-                                  , requests = unified
-                                  , limits = unified
+                                  , requests = requests
+                                  , limits = limits
                                   }
                         }
                       ]

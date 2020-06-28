@@ -13,6 +13,7 @@ let Common =
       , labels :
           { selector : Prelude.Map.Type Text Text
           , package : Prelude.Map.Type Text Text
+          , prometheus : Prelude.Map.Type Text Text
           }
       , metadata : Kubernetes.ObjectMeta.Type
       , settings : Settings.Type
@@ -24,14 +25,20 @@ let definition
       → let labels =
               let selector = toMap { `app.kubernetes.io/name` = name }
 
+              let package =
+                    toMap
+                      { k8s-app = name
+                      , `app.kubernetes.io/version` = settings.pod.image.tag
+                      , `app.kubernetes.io/managed-by` = "dhall"
+                      }
+
+              let prometheus =
+                    toMap
+                      { prometheus = settings.prometheus.endpoint }
+
               in  { selector = selector
-                  , package =
-                        selector
-                      # toMap
-                          { k8s-app = name
-                          , `app.kubernetes.io/version` = settings.pod.image.tag
-                          , `app.kubernetes.io/managed-by` = "dhall"
-                          }
+                  , package = selector # package
+                  , prometheus = selector # package # prometheus
                   }
 
         in  { name = name
