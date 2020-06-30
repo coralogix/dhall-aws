@@ -25,13 +25,13 @@ in    λ(common : Common.Type)
           }
         , Kubernetes.PolicyRule::{
           , apiGroups = Some [ "extensions" ]
-          , resources = Some [ "replicasets", "daemonsets" ]
+          , resources = Some [ "daemonsets" ]
           , verbs = [ "get" ]
           }
         , Kubernetes.PolicyRule::{
           , apiGroups = Some [ "apps" ]
           , resources = Some [ "daemonsets" ]
-          , verbs = [ "get", "delete" ]
+          , verbs = [ "get" ]
           }
         ]
       }
