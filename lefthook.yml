@@ -1,0 +1,10 @@
+pre-commit:
+  commands:
+    format:
+      run: .githooks/format.sh
+    refreeze:
+      run: .githooks/refreeze.sh
+pre-push:
+  commands:
+    test:
+      run: .githooks/test.sh
