@@ -116,8 +116,8 @@ let test-util =
 
 let render
     : InstanceType → Text
-    =   λ(instanceType : InstanceType)
-      → merge
+    = λ(instanceType : InstanceType) →
+        merge
           { c5-large = "c5.large"
           , c5-xlarge = "c5.xlarge"
           , c5-2xlarge = "c5.2xlarge"
@@ -177,8 +177,8 @@ let specs =
       { vCPU =
           let vCPU
               : InstanceType → Natural
-              =   λ(instanceType : InstanceType)
-                → merge
+              = λ(instanceType : InstanceType) →
+                  merge
                     { c5-large = 2
                     , c5-xlarge = 4
                     , c5-2xlarge = 8
@@ -238,8 +238,8 @@ let specs =
       , memory =
           let memory
               : InstanceType → Natural
-              =   λ(instanceType : InstanceType)
-                → merge
+              = λ(instanceType : InstanceType) →
+                  merge
                     { c5-large = 4000
                     , c5-xlarge = 8000
                     , c5-2xlarge = 16000
@@ -311,9 +311,9 @@ let alternatives =
 
       let alternatives
           : Parameters.Type → InstanceType → List InstanceType
-          =   λ(_params : Parameters.Type)
-            → λ(instanceType : InstanceType)
-            → merge
+          = λ(_params : Parameters.Type) →
+            λ(instanceType : InstanceType) →
+              merge
                 { c5-large =
                     let cross-instances =
                           [ InstanceType.m5-large, InstanceType.r5-large ]
@@ -322,17 +322,13 @@ let alternatives =
                           [ InstanceType.c5d-large, InstanceType.c5n-large ]
 
                     in    instancefamily
-                        # (       if _params.permitCrossInstanceFamily
-
+                        # ( if    _params.permitCrossInstanceFamily
                             then    cross-instances
-                                  # (       if     _params.permitLowerClassCPU
-                                               &&  _params.permitWorseNetwork
-
+                                  # ( if        _params.permitLowerClassCPU
+                                            &&  _params.permitWorseNetwork
                                       then  [ InstanceType.m4-large ]
-
                                       else  [] : List InstanceType
                                     )
-
                             else  [] : List InstanceType
                           )
                 , c5-xlarge =
@@ -343,17 +339,13 @@ let alternatives =
                           [ InstanceType.c5d-xlarge, InstanceType.c5n-xlarge ]
 
                     in    instancefamily
-                        # (       if _params.permitCrossInstanceFamily
-
+                        # ( if    _params.permitCrossInstanceFamily
                             then    cross-instances
-                                  # (       if     _params.permitLowerClassCPU
-                                               &&  _params.permitWorseNetwork
-
+                                  # ( if        _params.permitLowerClassCPU
+                                            &&  _params.permitWorseNetwork
                                       then  [ InstanceType.m4-xlarge ]
-
                                       else  [] : List InstanceType
                                     )
-
                             else  [] : List InstanceType
                           )
                 , c5-2xlarge =
@@ -364,17 +356,13 @@ let alternatives =
                           [ InstanceType.c5d-2xlarge, InstanceType.c5n-2xlarge ]
 
                     in    instancefamily
-                        # (       if _params.permitCrossInstanceFamily
-
+                        # ( if    _params.permitCrossInstanceFamily
                             then    cross-instances
-                                  # (       if     _params.permitLowerClassCPU
-                                               &&  _params.permitWorseNetwork
-
+                                  # ( if        _params.permitLowerClassCPU
+                                            &&  _params.permitWorseNetwork
                                       then  [ InstanceType.m4-2xlarge ]
-
                                       else  [] : List InstanceType
                                     )
-
                             else  [] : List InstanceType
                           )
                 , c5-4xlarge =
@@ -385,17 +373,13 @@ let alternatives =
                           [ InstanceType.c5d-4xlarge, InstanceType.c5n-4xlarge ]
 
                     in    instancefamily
-                        # (       if _params.permitCrossInstanceFamily
-
+                        # ( if    _params.permitCrossInstanceFamily
                             then    cross-instances
-                                  # (       if     _params.permitLowerClassCPU
-                                               &&  _params.permitWorseNetwork
-
+                                  # ( if        _params.permitLowerClassCPU
+                                            &&  _params.permitWorseNetwork
                                       then  [ InstanceType.m4-4xlarge ]
-
                                       else  [] : List InstanceType
                                     )
-
                             else  [] : List InstanceType
                           )
                 , c5d-large =
@@ -406,16 +390,12 @@ let alternatives =
                     let diskfree = [ InstanceType.c5n-large ]
 
                     in    instancefamily
-                        # (       if _params.permitCrossInstanceFamily
-
+                        # ( if    _params.permitCrossInstanceFamily
                             then  cross-instances
-
                             else  [] : List InstanceType
                           )
-                        # (       if _params.permitLosingLocalDisk
-
+                        # ( if    _params.permitLosingLocalDisk
                             then  diskfree
-
                             else  [] : List InstanceType
                           )
                 , c5d-xlarge =
@@ -426,16 +406,12 @@ let alternatives =
                     let diskfree = [ InstanceType.c5n-xlarge ]
 
                     in    instancefamily
-                        # (       if _params.permitCrossInstanceFamily
-
+                        # ( if    _params.permitCrossInstanceFamily
                             then  cross-instances
-
                             else  [] : List InstanceType
                           )
-                        # (       if _params.permitLosingLocalDisk
-
+                        # ( if    _params.permitLosingLocalDisk
                             then  diskfree
-
                             else  [] : List InstanceType
                           )
                 , c5d-2xlarge =
@@ -446,16 +422,12 @@ let alternatives =
                     let diskfree = [ InstanceType.c5n-2xlarge ]
 
                     in    instancefamily
-                        # (       if _params.permitCrossInstanceFamily
-
+                        # ( if    _params.permitCrossInstanceFamily
                             then  cross-instances
-
                             else  [] : List InstanceType
                           )
-                        # (       if _params.permitLosingLocalDisk
-
+                        # ( if    _params.permitLosingLocalDisk
                             then  diskfree
-
                             else  [] : List InstanceType
                           )
                 , c5d-4xlarge =
@@ -466,16 +438,12 @@ let alternatives =
                     let diskfree = [ InstanceType.c5n-4xlarge ]
 
                     in    instancefamily
-                        # (       if _params.permitCrossInstanceFamily
-
+                        # ( if    _params.permitCrossInstanceFamily
                             then  cross-instances
-
                             else  [] : List InstanceType
                           )
-                        # (       if _params.permitLosingLocalDisk
-
+                        # ( if    _params.permitLosingLocalDisk
                             then  diskfree
-
                             else  [] : List InstanceType
                           )
                 , c5n-large =
@@ -485,10 +453,8 @@ let alternatives =
                     let instancefamily = [] : List InstanceType
 
                     in    instancefamily
-                        # (       if _params.permitCrossInstanceFamily
-
+                        # ( if    _params.permitCrossInstanceFamily
                             then  cross-instances
-
                             else  [] : List InstanceType
                           )
                 , c5n-xlarge =
@@ -498,10 +464,8 @@ let alternatives =
                     let instancefamily = [] : List InstanceType
 
                     in    instancefamily
-                        # (       if _params.permitCrossInstanceFamily
-
+                        # ( if    _params.permitCrossInstanceFamily
                             then  cross-instances
-
                             else  [] : List InstanceType
                           )
                 , c5n-2xlarge =
@@ -511,10 +475,8 @@ let alternatives =
                     let instancefamily = [] : List InstanceType
 
                     in    instancefamily
-                        # (       if _params.permitCrossInstanceFamily
-
+                        # ( if    _params.permitCrossInstanceFamily
                             then  cross-instances
-
                             else  [] : List InstanceType
                           )
                 , c5n-4xlarge =
@@ -524,10 +486,8 @@ let alternatives =
                     let instancefamily = [] : List InstanceType
 
                     in    instancefamily
-                        # (       if _params.permitCrossInstanceFamily
-
+                        # ( if    _params.permitCrossInstanceFamily
                             then  cross-instances
-
                             else  [] : List InstanceType
                           )
                 , m4-large =
@@ -543,10 +503,8 @@ let alternatives =
                     let cross-instances = [ InstanceType.r5-large ]
 
                     in    instancefamily
-                        # (       if _params.permitCrossInstanceFamily
-
+                        # ( if    _params.permitCrossInstanceFamily
                             then  cross-instances
-
                             else  [] : List InstanceType
                           )
                 , m4-xlarge =
@@ -562,10 +520,8 @@ let alternatives =
                     let cross-instances = [ InstanceType.r5-xlarge ]
 
                     in    instancefamily
-                        # (       if _params.permitCrossInstanceFamily
-
+                        # ( if    _params.permitCrossInstanceFamily
                             then  cross-instances
-
                             else  [] : List InstanceType
                           )
                 , m4-2xlarge =
@@ -581,10 +537,8 @@ let alternatives =
                     let cross-instances = [ InstanceType.r5-2xlarge ]
 
                     in    instancefamily
-                        # (       if _params.permitCrossInstanceFamily
-
+                        # ( if    _params.permitCrossInstanceFamily
                             then  cross-instances
-
                             else  [] : List InstanceType
                           )
                 , m4-4xlarge =
@@ -600,10 +554,8 @@ let alternatives =
                     let cross-instances = [ InstanceType.r5-4xlarge ]
 
                     in    instancefamily
-                        # (       if _params.permitCrossInstanceFamily
-
+                        # ( if    _params.permitCrossInstanceFamily
                             then  cross-instances
-
                             else  [] : List InstanceType
                           )
                 , m5-large =
@@ -618,16 +570,12 @@ let alternatives =
                     let cross-instances = [ InstanceType.r5-large ]
 
                     in    instancefamily
-                        # (       if _params.permitCrossInstanceFamily
-
+                        # ( if    _params.permitCrossInstanceFamily
                             then  cross-instances
-
                             else  [] : List InstanceType
                           )
-                        # (       if _params.permitLowerClassCPU
-
+                        # ( if    _params.permitLowerClassCPU
                             then  [ InstanceType.m4-large ]
-
                             else  [] : List InstanceType
                           )
                 , m5-xlarge =
@@ -642,16 +590,12 @@ let alternatives =
                     let cross-instances = [ InstanceType.r5-xlarge ]
 
                     in    instancefamily
-                        # (       if _params.permitCrossInstanceFamily
-
+                        # ( if    _params.permitCrossInstanceFamily
                             then  cross-instances
-
                             else  [] : List InstanceType
                           )
-                        # (       if _params.permitLowerClassCPU
-
+                        # ( if    _params.permitLowerClassCPU
                             then  [ InstanceType.m4-xlarge ]
-
                             else  [] : List InstanceType
                           )
                 , m5-2xlarge =
@@ -666,16 +610,12 @@ let alternatives =
                     let cross-instances = [ InstanceType.r5-2xlarge ]
 
                     in    instancefamily
-                        # (       if _params.permitCrossInstanceFamily
-
+                        # ( if    _params.permitCrossInstanceFamily
                             then  cross-instances
-
                             else  [] : List InstanceType
                           )
-                        # (       if _params.permitLowerClassCPU
-
+                        # ( if    _params.permitLowerClassCPU
                             then  [ InstanceType.m4-2xlarge ]
-
                             else  [] : List InstanceType
                           )
                 , m5-4xlarge =
@@ -690,24 +630,18 @@ let alternatives =
                     let cross-instances = [ InstanceType.r5-4xlarge ]
 
                     in    instancefamily
-                        # (       if _params.permitCrossInstanceFamily
-
+                        # ( if    _params.permitCrossInstanceFamily
                             then  cross-instances
-
                             else  [] : List InstanceType
                           )
-                        # (       if _params.permitLowerClassCPU
-
+                        # ( if    _params.permitLowerClassCPU
                             then  [ InstanceType.m4-4xlarge ]
-
                             else  [] : List InstanceType
                           )
                 , m5d-large =
                     let diskfree =
-                            (       if _params.permitLowerClassCPU
-
+                            ( if    _params.permitLowerClassCPU
                               then  [ InstanceType.m4-large ]
-
                               else  [] : List InstanceType
                             )
                           # [ InstanceType.m5a-large, InstanceType.m5n-large ]
@@ -716,18 +650,14 @@ let alternatives =
                           [ InstanceType.m5ad-large, InstanceType.m5dn-large ]
 
                     in    withdisk
-                        # (       if _params.permitLosingLocalDisk
-
+                        # ( if    _params.permitLosingLocalDisk
                             then  diskfree
-
                             else  [] : List InstanceType
                           )
                 , m5d-xlarge =
                     let diskfree =
-                            (       if _params.permitLowerClassCPU
-
+                            ( if    _params.permitLowerClassCPU
                               then  [ InstanceType.m4-xlarge ]
-
                               else  [] : List InstanceType
                             )
                           # [ InstanceType.m5a-xlarge, InstanceType.m5n-xlarge ]
@@ -736,18 +666,14 @@ let alternatives =
                           [ InstanceType.m5ad-xlarge, InstanceType.m5dn-xlarge ]
 
                     in    withdisk
-                        # (       if _params.permitLosingLocalDisk
-
+                        # ( if    _params.permitLosingLocalDisk
                             then  diskfree
-
                             else  [] : List InstanceType
                           )
                 , m5d-2xlarge =
                     let diskfree =
-                            (       if _params.permitLowerClassCPU
-
+                            ( if    _params.permitLowerClassCPU
                               then  [ InstanceType.m4-2xlarge ]
-
                               else  [] : List InstanceType
                             )
                           # [ InstanceType.m5a-2xlarge
@@ -760,18 +686,14 @@ let alternatives =
                           ]
 
                     in    withdisk
-                        # (       if _params.permitLosingLocalDisk
-
+                        # ( if    _params.permitLosingLocalDisk
                             then  diskfree
-
                             else  [] : List InstanceType
                           )
                 , m5d-4xlarge =
                     let diskfree =
-                            (       if _params.permitLowerClassCPU
-
+                            ( if    _params.permitLowerClassCPU
                               then  [ InstanceType.m4-4xlarge ]
-
                               else  [] : List InstanceType
                             )
                           # [ InstanceType.m5a-4xlarge
@@ -784,10 +706,8 @@ let alternatives =
                           ]
 
                     in    withdisk
-                        # (       if _params.permitLosingLocalDisk
-
+                        # ( if    _params.permitLosingLocalDisk
                             then  diskfree
-
                             else  [] : List InstanceType
                           )
                 , m5a-large =
@@ -802,16 +722,12 @@ let alternatives =
                     let cross-instances = [ InstanceType.r5a-large ]
 
                     in    instancefamily
-                        # (       if _params.permitCrossInstanceFamily
-
+                        # ( if    _params.permitCrossInstanceFamily
                             then  cross-instances
-
                             else  [] : List InstanceType
                           )
-                        # (       if _params.permitLowerClassCPU
-
+                        # ( if    _params.permitLowerClassCPU
                             then  [ InstanceType.m4-4xlarge ]
-
                             else  [] : List InstanceType
                           )
                 , m5a-xlarge =
@@ -826,16 +742,12 @@ let alternatives =
                     let cross-instances = [ InstanceType.r5a-xlarge ]
 
                     in    instancefamily
-                        # (       if _params.permitCrossInstanceFamily
-
+                        # ( if    _params.permitCrossInstanceFamily
                             then  cross-instances
-
                             else  [] : List InstanceType
                           )
-                        # (       if _params.permitLowerClassCPU
-
+                        # ( if    _params.permitLowerClassCPU
                             then  [ InstanceType.m4-xlarge ]
-
                             else  [] : List InstanceType
                           )
                 , m5a-2xlarge =
@@ -850,16 +762,12 @@ let alternatives =
                     let cross-instances = [ InstanceType.r5a-2xlarge ]
 
                     in    instancefamily
-                        # (       if _params.permitCrossInstanceFamily
-
+                        # ( if    _params.permitCrossInstanceFamily
                             then  cross-instances
-
                             else  [] : List InstanceType
                           )
-                        # (       if _params.permitLowerClassCPU
-
+                        # ( if    _params.permitLowerClassCPU
                             then  [ InstanceType.m4-2xlarge ]
-
                             else  [] : List InstanceType
                           )
                 , m5a-4xlarge =
@@ -874,24 +782,18 @@ let alternatives =
                     let cross-instances = [ InstanceType.r5a-4xlarge ]
 
                     in    instancefamily
-                        # (       if _params.permitCrossInstanceFamily
-
+                        # ( if    _params.permitCrossInstanceFamily
                             then  cross-instances
-
                             else  [] : List InstanceType
                           )
-                        # (       if _params.permitLowerClassCPU
-
+                        # ( if    _params.permitLowerClassCPU
                             then  [ InstanceType.m4-4xlarge ]
-
                             else  [] : List InstanceType
                           )
                 , m5ad-large =
                     let diskfree =
-                            (       if _params.permitLowerClassCPU
-
+                            ( if    _params.permitLowerClassCPU
                               then  [ InstanceType.m4-large ]
-
                               else  [] : List InstanceType
                             )
                           # [ InstanceType.m5-large
@@ -903,18 +805,14 @@ let alternatives =
                           [ InstanceType.m5d-large, InstanceType.m5dn-large ]
 
                     in    withdisk
-                        # (       if _params.permitLosingLocalDisk
-
+                        # ( if    _params.permitLosingLocalDisk
                             then  diskfree
-
                             else  [] : List InstanceType
                           )
                 , m5ad-xlarge =
                     let diskfree =
-                            (       if _params.permitLowerClassCPU
-
+                            ( if    _params.permitLowerClassCPU
                               then  [ InstanceType.m4-xlarge ]
-
                               else  [] : List InstanceType
                             )
                           # [ InstanceType.m5-xlarge
@@ -926,18 +824,14 @@ let alternatives =
                           [ InstanceType.m5d-xlarge, InstanceType.m5dn-xlarge ]
 
                     in    withdisk
-                        # (       if _params.permitLosingLocalDisk
-
+                        # ( if    _params.permitLosingLocalDisk
                             then  diskfree
-
                             else  [] : List InstanceType
                           )
                 , m5ad-2xlarge =
                     let diskfree =
-                            (       if _params.permitLowerClassCPU
-
+                            ( if    _params.permitLowerClassCPU
                               then  [ InstanceType.m4-2xlarge ]
-
                               else  [] : List InstanceType
                             )
                           # [ InstanceType.m5-2xlarge
@@ -951,18 +845,14 @@ let alternatives =
                           ]
 
                     in    withdisk
-                        # (       if _params.permitLosingLocalDisk
-
+                        # ( if    _params.permitLosingLocalDisk
                             then  diskfree
-
                             else  [] : List InstanceType
                           )
                 , m5ad-4xlarge =
                     let diskfree =
-                            (       if _params.permitLowerClassCPU
-
+                            ( if    _params.permitLowerClassCPU
                               then  [ InstanceType.m4-4xlarge ]
-
                               else  [] : List InstanceType
                             )
                           # [ InstanceType.m5-4xlarge
@@ -976,10 +866,8 @@ let alternatives =
                           ]
 
                     in    withdisk
-                        # (       if _params.permitLosingLocalDisk
-
+                        # ( if    _params.permitLosingLocalDisk
                             then  diskfree
-
                             else  [] : List InstanceType
                           )
                 , m5n-large =
@@ -988,26 +876,20 @@ let alternatives =
                     let cross-instances = [ InstanceType.r5n-large ]
 
                     in    instancefamily
-                        # (       if _params.permitCrossInstanceFamily
-
+                        # ( if    _params.permitCrossInstanceFamily
                             then  cross-instances
-
                             else  [] : List InstanceType
                           )
-                        # (       if _params.permitLowerClassCPU
-
+                        # ( if    _params.permitLowerClassCPU
                             then  [ InstanceType.m4-large ]
-
                             else  [] : List InstanceType
                           )
-                        # (       if _params.permitWorseNetwork
-
+                        # ( if    _params.permitWorseNetwork
                             then  [ InstanceType.m5-large
                                   , InstanceType.m5d-large
                                   , InstanceType.m5a-large
                                   , InstanceType.m5ad-large
                                   ]
-
                             else  [] : List InstanceType
                           )
                 , m5n-xlarge =
@@ -1016,26 +898,20 @@ let alternatives =
                     let cross-instances = [ InstanceType.r5n-xlarge ]
 
                     in    instancefamily
-                        # (       if _params.permitCrossInstanceFamily
-
+                        # ( if    _params.permitCrossInstanceFamily
                             then  cross-instances
-
                             else  [] : List InstanceType
                           )
-                        # (       if _params.permitLowerClassCPU
-
+                        # ( if    _params.permitLowerClassCPU
                             then  [ InstanceType.m4-xlarge ]
-
                             else  [] : List InstanceType
                           )
-                        # (       if _params.permitWorseNetwork
-
+                        # ( if    _params.permitWorseNetwork
                             then  [ InstanceType.m5-xlarge
                                   , InstanceType.m5d-xlarge
                                   , InstanceType.m5a-xlarge
                                   , InstanceType.m5ad-xlarge
                                   ]
-
                             else  [] : List InstanceType
                           )
                 , m5n-2xlarge =
@@ -1044,26 +920,20 @@ let alternatives =
                     let cross-instances = [ InstanceType.r5n-2xlarge ]
 
                     in    instancefamily
-                        # (       if _params.permitCrossInstanceFamily
-
+                        # ( if    _params.permitCrossInstanceFamily
                             then  cross-instances
-
                             else  [] : List InstanceType
                           )
-                        # (       if _params.permitLowerClassCPU
-
+                        # ( if    _params.permitLowerClassCPU
                             then  [ InstanceType.m4-2xlarge ]
-
                             else  [] : List InstanceType
                           )
-                        # (       if _params.permitWorseNetwork
-
+                        # ( if    _params.permitWorseNetwork
                             then  [ InstanceType.m5-2xlarge
                                   , InstanceType.m5d-2xlarge
                                   , InstanceType.m5a-2xlarge
                                   , InstanceType.m5ad-2xlarge
                                   ]
-
                             else  [] : List InstanceType
                           )
                 , m5n-4xlarge =
@@ -1072,35 +942,27 @@ let alternatives =
                     let cross-instances = [ InstanceType.r5n-4xlarge ]
 
                     in    instancefamily
-                        # (       if _params.permitCrossInstanceFamily
-
+                        # ( if    _params.permitCrossInstanceFamily
                             then  cross-instances
-
                             else  [] : List InstanceType
                           )
-                        # (       if _params.permitLowerClassCPU
-
+                        # ( if    _params.permitLowerClassCPU
                             then  [ InstanceType.m4-4xlarge ]
-
                             else  [] : List InstanceType
                           )
-                        # (       if _params.permitWorseNetwork
-
+                        # ( if    _params.permitWorseNetwork
                             then  [ InstanceType.m5-4xlarge
                                   , InstanceType.m5d-4xlarge
                                   , InstanceType.m5a-4xlarge
                                   , InstanceType.m5ad-4xlarge
                                   ]
-
                             else  [] : List InstanceType
                           )
                 , m5dn-large =
                     let worsenetwork =
                           let diskfree =
-                                  (       if _params.permitLowerClassCPU
-
+                                  ( if    _params.permitLowerClassCPU
                                     then  [ InstanceType.m4-large ]
-
                                     else  [] : List InstanceType
                                   )
                                 # [ InstanceType.m4-large
@@ -1113,33 +975,25 @@ let alternatives =
                                 , InstanceType.m5ad-large
                                 ]
 
-                          in  { diskfree = diskfree, withdisk = withdisk }
+                          in  { diskfree, withdisk }
 
                     let samenetwork = { diskfree = [ InstanceType.m5n-large ] }
 
-                    in        if _params.permitWorseNetwork
-
+                    in  if    _params.permitWorseNetwork
                         then    worsenetwork.withdisk
-                              # (       if _params.permitLosingLocalDisk
-
+                              # ( if    _params.permitLosingLocalDisk
                                   then    worsenetwork.diskfree
                                         # samenetwork.diskfree
-
                                   else  [] : List InstanceType
                                 )
-
                         else  if _params.permitLosingLocalDisk
-
                         then  samenetwork.diskfree
-
                         else  [] : List InstanceType
                 , m5dn-xlarge =
                     let worsenetwork =
                           let diskfree =
-                                  (       if _params.permitLowerClassCPU
-
+                                  ( if    _params.permitLowerClassCPU
                                     then  [ InstanceType.m4-xlarge ]
-
                                     else  [] : List InstanceType
                                   )
                                 # [ InstanceType.m4-xlarge
@@ -1152,33 +1006,25 @@ let alternatives =
                                 , InstanceType.m5ad-xlarge
                                 ]
 
-                          in  { diskfree = diskfree, withdisk = withdisk }
+                          in  { diskfree, withdisk }
 
                     let samenetwork = { diskfree = [ InstanceType.m5n-xlarge ] }
 
-                    in        if _params.permitWorseNetwork
-
+                    in  if    _params.permitWorseNetwork
                         then    worsenetwork.withdisk
-                              # (       if _params.permitLosingLocalDisk
-
+                              # ( if    _params.permitLosingLocalDisk
                                   then    worsenetwork.diskfree
                                         # samenetwork.diskfree
-
                                   else  [] : List InstanceType
                                 )
-
                         else  if _params.permitLosingLocalDisk
-
                         then  samenetwork.diskfree
-
                         else  [] : List InstanceType
                 , m5dn-2xlarge =
                     let worsenetwork =
                           let diskfree =
-                                  (       if _params.permitLowerClassCPU
-
+                                  ( if    _params.permitLowerClassCPU
                                     then  [ InstanceType.m4-2xlarge ]
-
                                     else  [] : List InstanceType
                                   )
                                 # [ InstanceType.m4-2xlarge
@@ -1191,34 +1037,26 @@ let alternatives =
                                 , InstanceType.m5ad-2xlarge
                                 ]
 
-                          in  { diskfree = diskfree, withdisk = withdisk }
+                          in  { diskfree, withdisk }
 
                     let samenetwork =
                           { diskfree = [ InstanceType.m5n-2xlarge ] }
 
-                    in        if _params.permitWorseNetwork
-
+                    in  if    _params.permitWorseNetwork
                         then    worsenetwork.withdisk
-                              # (       if _params.permitLosingLocalDisk
-
+                              # ( if    _params.permitLosingLocalDisk
                                   then    worsenetwork.diskfree
                                         # samenetwork.diskfree
-
                                   else  [] : List InstanceType
                                 )
-
                         else  if _params.permitLosingLocalDisk
-
                         then  samenetwork.diskfree
-
                         else  [] : List InstanceType
                 , m5dn-4xlarge =
                     let worsenetwork =
                           let diskfree =
-                                  (       if _params.permitLowerClassCPU
-
+                                  ( if    _params.permitLowerClassCPU
                                     then  [ InstanceType.m4-4xlarge ]
-
                                     else  [] : List InstanceType
                                   )
                                 # [ InstanceType.m4-4xlarge
@@ -1231,26 +1069,20 @@ let alternatives =
                                 , InstanceType.m5ad-4xlarge
                                 ]
 
-                          in  { diskfree = diskfree, withdisk = withdisk }
+                          in  { diskfree, withdisk }
 
                     let samenetwork =
                           { diskfree = [ InstanceType.m5n-4xlarge ] }
 
-                    in        if _params.permitWorseNetwork
-
+                    in  if    _params.permitWorseNetwork
                         then    worsenetwork.withdisk
-                              # (       if _params.permitLosingLocalDisk
-
+                              # ( if    _params.permitLosingLocalDisk
                                   then    worsenetwork.diskfree
                                         # samenetwork.diskfree
-
                                   else  [] : List InstanceType
                                 )
-
                         else  if _params.permitLosingLocalDisk
-
                         then  samenetwork.diskfree
-
                         else  [] : List InstanceType
                 , r5-large = [ InstanceType.r5a-large, InstanceType.r5n-large ]
                 , r5-xlarge =
@@ -1267,28 +1099,20 @@ let alternatives =
                 , r5a-4xlarge =
                   [ InstanceType.r5-4xlarge, InstanceType.r5n-4xlarge ]
                 , r5n-large =
-                          if _params.permitWorseNetwork
-
+                    if    _params.permitWorseNetwork
                     then  [ InstanceType.r5-large, InstanceType.r5a-large ]
-
                     else  [] : List InstanceType
                 , r5n-xlarge =
-                          if _params.permitWorseNetwork
-
+                    if    _params.permitWorseNetwork
                     then  [ InstanceType.r5-xlarge, InstanceType.r5a-xlarge ]
-
                     else  [] : List InstanceType
                 , r5n-2xlarge =
-                          if _params.permitWorseNetwork
-
+                    if    _params.permitWorseNetwork
                     then  [ InstanceType.r5-2xlarge, InstanceType.r5a-2xlarge ]
-
                     else  [] : List InstanceType
                 , r5n-4xlarge =
-                          if _params.permitWorseNetwork
-
+                    if    _params.permitWorseNetwork
                     then  [ InstanceType.r5-4xlarge, InstanceType.r5a-4xlarge ]
-
                     else  [] : List InstanceType
                 }
                 instanceType
@@ -1296,11 +1120,11 @@ let alternatives =
       let tests =
             { samespecs =
                 let common =
-                        λ(spec : InstanceType → Natural)
-                      → Prelude.List.all
+                      λ(spec : InstanceType → Natural) →
+                        Prelude.List.all
                           InstanceType
-                          (   λ(instanceType : InstanceType)
-                            → let alternatives =
+                          ( λ(instanceType : InstanceType) →
+                              let alternatives =
                                     alternatives
                                       Parameters::{
                                       , permitLowerClassCPU = True
@@ -1312,10 +1136,10 @@ let alternatives =
 
                               in  Prelude.List.all
                                     InstanceType
-                                    (   λ ( alternativeInstanceType
-                                          : InstanceType
-                                          )
-                                      → Prelude.Natural.lessThanEqual
+                                    ( λ ( alternativeInstanceType
+                                        : InstanceType
+                                        ) →
+                                        Prelude.Natural.lessThanEqual
                                           (spec instanceType)
                                           (spec alternativeInstanceType)
                                     )
@@ -1328,12 +1152,12 @@ let alternatives =
                     }
             }
 
-      in  { Parameters = Parameters, function = alternatives }
+      in  { Parameters, function = alternatives }
 
 let upsize
     : InstanceType → Optional InstanceType
-    =   λ(instanceType : InstanceType)
-      → merge
+    = λ(instanceType : InstanceType) →
+        merge
           { c5-large = Some InstanceType.c5-xlarge
           , c5-xlarge = Some InstanceType.c5-2xlarge
           , c5-2xlarge = Some InstanceType.c5-4xlarge
@@ -1390,10 +1214,10 @@ let upsize
           instanceType
 
 in  { Type = InstanceType
-    , render = render
-    , upsize = upsize
-    , specs = specs
-    , alternatives = alternatives
+    , render
+    , upsize
+    , specs
+    , alternatives
     , c5-large = InstanceType.c5-large
     , c5-xlarge = InstanceType.c5-xlarge
     , c5-2xlarge = InstanceType.c5-2xlarge

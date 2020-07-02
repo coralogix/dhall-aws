@@ -6,9 +6,9 @@ let Kubernetes = imports.Kubernetes
 
 let Common = ./Common.dhall
 
-in    λ(common : Common.Type)
-    → λ(serviceAccount : Kubernetes.ServiceAccount.Type)
-    → Kubernetes.DaemonSet::{
+in  λ(common : Common.Type) →
+    λ(serviceAccount : Kubernetes.ServiceAccount.Type) →
+      Kubernetes.DaemonSet::{
       , metadata = common.metadata
       , spec = Some Kubernetes.DaemonSetSpec::{
         , selector = Kubernetes.LabelSelector::{
@@ -73,15 +73,13 @@ in    λ(common : Common.Type)
                         , env =
                             let render =
                                   { bool =
-                                        λ(bool : Bool)
-                                      →       if bool
-
+                                      λ(bool : Bool) →
+                                        if    bool
                                         then  Some "true"
-
                                         else  Some "false"
                                   , optional-text =
-                                        λ(text : Optional Text)
-                                      → Prelude.Optional.fold
+                                      λ(text : Optional Text) →
+                                        Prelude.Optional.fold
                                           Text
                                           text
                                           (Optional Text)
@@ -218,7 +216,8 @@ in    λ(common : Common.Type)
                                     }
                                   , Kubernetes.EnvVar::{
                                     , name = "PROMETHEUS_SERVER_PORT"
-                                    , value = Some common.settings.prometheus.port
+                                    , value = Some
+                                        common.settings.prometheus.port
                                     }
                                   ]
                         , resources =
@@ -244,8 +243,8 @@ in    λ(common : Common.Type)
 
                             in  Some
                                   Kubernetes.ResourceRequirements::{
-                                  , requests = requests
-                                  , limits = limits
+                                  , requests
+                                  , limits
                                   }
                         }
                       ]

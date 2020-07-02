@@ -1,9 +1,7 @@
 pre-commit:
   commands:
-    format:
-      run: .githooks/format.sh
-    refreeze:
-      run: .githooks/refreeze.sh
+    test:
+      run: .githooks/check-format.sh
 pre-push:
   commands:
     test:
