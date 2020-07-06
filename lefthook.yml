@@ -2,7 +2,3 @@ pre-commit:
   commands:
     test:
       run: .githooks/check-format.sh
-pre-push:
-  commands:
-    test:
-      run: .githooks/test.sh
