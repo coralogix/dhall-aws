@@ -21,8 +21,8 @@ let Common =
 
 let definition
     : ∀(settings : Settings.Type) → Common
-    =   λ(settings : Settings.Type)
-      → let labels =
+    = λ(settings : Settings.Type) →
+        let labels =
               let selector = toMap { `app.kubernetes.io/name` = name }
 
               let package =
@@ -33,22 +33,21 @@ let definition
                       }
 
               let prometheus =
-                    toMap
-                      { prometheus = settings.prometheus.endpoint }
+                    toMap { prometheus = settings.prometheus.endpoint }
 
-              in  { selector = selector
+              in  { selector
                   , package = selector # package
                   , prometheus = selector # package # prometheus
                   }
 
-        in  { name = name
-            , labels = labels
+        in  { name
+            , labels
             , metadata = Kubernetes.ObjectMeta::{
-              , name = name
+              , name
               , labels = Some labels.package
               , namespace = Some settings.pod.namespace
               }
-            , settings = settings
+            , settings
             }
 
-in  { Type = Common, definition = definition }
+in  { Type = Common, definition }
