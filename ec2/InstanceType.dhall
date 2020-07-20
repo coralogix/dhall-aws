@@ -10,6 +10,10 @@ let InstanceType =
       | c5-xlarge
       | c5-2xlarge
       | c5-4xlarge
+      | c5a-large
+      | c5a-xlarge
+      | c5a-2xlarge
+      | c5a-4xlarge
       | c5d-large
       | c5d-xlarge
       | c5d-2xlarge
@@ -26,10 +30,6 @@ let InstanceType =
       | m5-xlarge
       | m5-2xlarge
       | m5-4xlarge
-      | m5d-large
-      | m5d-xlarge
-      | m5d-2xlarge
-      | m5d-4xlarge
       | m5a-large
       | m5a-xlarge
       | m5a-2xlarge
@@ -38,14 +38,18 @@ let InstanceType =
       | m5ad-xlarge
       | m5ad-2xlarge
       | m5ad-4xlarge
-      | m5n-large
-      | m5n-xlarge
-      | m5n-2xlarge
-      | m5n-4xlarge
+      | m5d-large
+      | m5d-xlarge
+      | m5d-2xlarge
+      | m5d-4xlarge
       | m5dn-large
       | m5dn-xlarge
       | m5dn-2xlarge
       | m5dn-4xlarge
+      | m5n-large
+      | m5n-xlarge
+      | m5n-2xlarge
+      | m5n-4xlarge
       | r5-large
       | r5-xlarge
       | r5-2xlarge
@@ -80,6 +84,10 @@ let test-util =
         , InstanceType.c5-xlarge
         , InstanceType.c5-2xlarge
         , InstanceType.c5-4xlarge
+        , InstanceType.c5a-large
+        , InstanceType.c5a-xlarge
+        , InstanceType.c5a-2xlarge
+        , InstanceType.c5a-4xlarge
         , InstanceType.c5d-large
         , InstanceType.c5d-xlarge
         , InstanceType.c5d-2xlarge
@@ -96,10 +104,6 @@ let test-util =
         , InstanceType.m5-xlarge
         , InstanceType.m5-2xlarge
         , InstanceType.m5-4xlarge
-        , InstanceType.m5d-large
-        , InstanceType.m5d-xlarge
-        , InstanceType.m5d-2xlarge
-        , InstanceType.m5d-4xlarge
         , InstanceType.m5a-large
         , InstanceType.m5a-xlarge
         , InstanceType.m5a-2xlarge
@@ -108,14 +112,18 @@ let test-util =
         , InstanceType.m5ad-xlarge
         , InstanceType.m5ad-2xlarge
         , InstanceType.m5ad-4xlarge
-        , InstanceType.m5n-large
-        , InstanceType.m5n-xlarge
-        , InstanceType.m5n-2xlarge
-        , InstanceType.m5n-4xlarge
+        , InstanceType.m5d-large
+        , InstanceType.m5d-xlarge
+        , InstanceType.m5d-2xlarge
+        , InstanceType.m5d-4xlarge
         , InstanceType.m5dn-large
         , InstanceType.m5dn-xlarge
         , InstanceType.m5dn-2xlarge
         , InstanceType.m5dn-4xlarge
+        , InstanceType.m5n-large
+        , InstanceType.m5n-xlarge
+        , InstanceType.m5n-2xlarge
+        , InstanceType.m5n-4xlarge
         , InstanceType.r5-large
         , InstanceType.r5-xlarge
         , InstanceType.r5-2xlarge
@@ -153,6 +161,10 @@ let render
           , c5-xlarge = "c5.xlarge"
           , c5-2xlarge = "c5.2xlarge"
           , c5-4xlarge = "c5.4xlarge"
+          , c5a-large = "c5a.large"
+          , c5a-xlarge = "c5a.xlarge"
+          , c5a-2xlarge = "c5a.2xlarge"
+          , c5a-4xlarge = "c5a.4xlarge"
           , c5d-large = "c5d.large"
           , c5d-xlarge = "c5d.xlarge"
           , c5d-2xlarge = "c5d.2xlarge"
@@ -228,6 +240,10 @@ let specs =
                     , c5-xlarge = 4
                     , c5-2xlarge = 8
                     , c5-4xlarge = 16
+                    , c5a-large = 2
+                    , c5a-xlarge = 4
+                    , c5a-2xlarge = 8
+                    , c5a-4xlarge = 16
                     , c5d-large = 2
                     , c5d-xlarge = 4
                     , c5d-2xlarge = 8
@@ -303,6 +319,10 @@ let specs =
                     , c5-xlarge = 8000
                     , c5-2xlarge = 16000
                     , c5-4xlarge = 32000
+                    , c5a-large = 4000
+                    , c5a-xlarge = 8000
+                    , c5a-2xlarge = 16000
+                    , c5a-4xlarge = 32000
                     , c5d-large = 4000
                     , c5d-xlarge = 8000
                     , c5d-2xlarge = 16000
@@ -376,6 +396,7 @@ let alternatives =
             { Type =
                 { permitLowerClassCPU : Bool
                 , permitWorseNetwork : Bool
+                , permitLowerEBSBandwidth : Bool
                 , permitLosingLocalDisk : Bool
                 , permitCrossInstanceFamily : Bool
                 }
@@ -389,134 +410,332 @@ let alternatives =
               merge
                 { c5-large =
                     let cross-instances =
-                          [ InstanceType.m5-large, InstanceType.r5-large ]
+                          let lowClass =
+
+                              {-
+                                lowClass - all instance types that have lower ECU and lower network performance
+                                  -}
+                                [ InstanceType.m4-large ]
+
+                          in    [ InstanceType.m5-large, InstanceType.r5-large ]
+                              # ( if        _params.permitLowerClassCPU
+                                        &&  _params.permitWorseNetwork
+                                        &&  _params.permitLowerEBSBandwidth
+                                  then  lowClass
+                                  else  [] : List InstanceType
+                                )
 
                     let instancefamily =
-                          [ InstanceType.c5d-large, InstanceType.c5n-large ]
+                          let lowDiskBandwidth =
+
+                              {- lowDiskBandwidth - an instance type with low EBS disk bandwidth -}
+
+                                [ InstanceType.c5a-large ]
+
+                          in    [ InstanceType.c5d-large
+                                , InstanceType.c5n-large
+                                ]
+                              # ( if    _params.permitLowerEBSBandwidth
+                                  then  lowDiskBandwidth
+                                  else  [] : List InstanceType
+                                )
 
                     in    instancefamily
                         # ( if    _params.permitCrossInstanceFamily
-                            then    cross-instances
-                                  # ( if        _params.permitLowerClassCPU
-                                            &&  _params.permitWorseNetwork
-                                      then  [ InstanceType.m4-large ]
-                                      else  [] : List InstanceType
-                                    )
+                            then  cross-instances
                             else  [] : List InstanceType
                           )
                 , c5-xlarge =
                     let cross-instances =
-                          [ InstanceType.m5-xlarge, InstanceType.r5-xlarge ]
+                          let lowClass =
+
+                              {-
+                                lowClass - all instance types that have lower ECU and lower network performance
+                                  -}
+                                [ InstanceType.m4-xlarge ]
+
+                          in    [ InstanceType.m5-xlarge
+                                , InstanceType.r5-xlarge
+                                ]
+                              # ( if        _params.permitLowerClassCPU
+                                        &&  _params.permitWorseNetwork
+                                        &&  _params.permitLowerEBSBandwidth
+                                  then  lowClass
+                                  else  [] : List InstanceType
+                                )
 
                     let instancefamily =
-                          [ InstanceType.c5d-xlarge, InstanceType.c5n-xlarge ]
+                          let lowDiskBandwidth =
+
+                              {- lowDiskBandwidth - an instance type with low EBS disk bandwidth -}
+
+                                [ InstanceType.c5a-xlarge ]
+
+                          in    [ InstanceType.c5d-xlarge
+                                , InstanceType.c5n-xlarge
+                                ]
+                              # ( if    _params.permitLowerEBSBandwidth
+                                  then  lowDiskBandwidth
+                                  else  [] : List InstanceType
+                                )
 
                     in    instancefamily
                         # ( if    _params.permitCrossInstanceFamily
-                            then    cross-instances
-                                  # ( if        _params.permitLowerClassCPU
-                                            &&  _params.permitWorseNetwork
-                                      then  [ InstanceType.m4-xlarge ]
-                                      else  [] : List InstanceType
-                                    )
+                            then  cross-instances
                             else  [] : List InstanceType
                           )
                 , c5-2xlarge =
                     let cross-instances =
-                          [ InstanceType.m5-2xlarge, InstanceType.r5-2xlarge ]
+                          let lowClass =
+
+                              {-
+                                lowClass - all instance types that have lower ECU and lower network performance
+                                  -}
+                                [ InstanceType.m4-2xlarge ]
+
+                          in    [ InstanceType.m5-2xlarge
+                                , InstanceType.r5-2xlarge
+                                ]
+                              # ( if        _params.permitLowerClassCPU
+                                        &&  _params.permitWorseNetwork
+                                        &&  _params.permitLowerEBSBandwidth
+                                  then  lowClass
+                                  else  [] : List InstanceType
+                                )
 
                     let instancefamily =
-                          [ InstanceType.c5d-2xlarge, InstanceType.c5n-2xlarge ]
+                          let lowDiskBandwidth =
+
+                              {- lowDiskBandwidth - an instance type with low EBS disk bandwidth -}
+
+                                [ InstanceType.c5a-2xlarge ]
+
+                          in    [ InstanceType.c5d-2xlarge
+                                , InstanceType.c5n-2xlarge
+                                ]
+                              # ( if    _params.permitLowerEBSBandwidth
+                                  then  lowDiskBandwidth
+                                  else  [] : List InstanceType
+                                )
 
                     in    instancefamily
                         # ( if    _params.permitCrossInstanceFamily
-                            then    cross-instances
-                                  # ( if        _params.permitLowerClassCPU
-                                            &&  _params.permitWorseNetwork
-                                      then  [ InstanceType.m4-2xlarge ]
-                                      else  [] : List InstanceType
-                                    )
+                            then  cross-instances
                             else  [] : List InstanceType
                           )
                 , c5-4xlarge =
                     let cross-instances =
-                          [ InstanceType.m5-4xlarge, InstanceType.r5-4xlarge ]
+                          let lowClass =
+
+                              {-
+                                lowClass - all instance types that have lower ECU and lower network performance
+                                  -}
+                                [ InstanceType.m4-4xlarge ]
+
+                          in    [ InstanceType.m5-4xlarge
+                                , InstanceType.r5-4xlarge
+                                ]
+                              # ( if        _params.permitLowerClassCPU
+                                        &&  _params.permitWorseNetwork
+                                        &&  _params.permitLowerEBSBandwidth
+                                  then  lowClass
+                                  else  [] : List InstanceType
+                                )
 
                     let instancefamily =
-                          [ InstanceType.c5d-4xlarge, InstanceType.c5n-4xlarge ]
+                          let lowDiskBandwidth =
+
+                              {- lowDiskBandwidth - an instance type with low EBS disk bandwidth -}
+
+                                [ InstanceType.c5a-4xlarge ]
+
+                          in    [ InstanceType.c5d-4xlarge
+                                , InstanceType.c5n-4xlarge
+                                ]
+                              # ( if    _params.permitLowerEBSBandwidth
+                                  then  lowDiskBandwidth
+                                  else  [] : List InstanceType
+                                )
 
                     in    instancefamily
                         # ( if    _params.permitCrossInstanceFamily
-                            then    cross-instances
-                                  # ( if        _params.permitLowerClassCPU
-                                            &&  _params.permitWorseNetwork
-                                      then  [ InstanceType.m4-4xlarge ]
-                                      else  [] : List InstanceType
-                                    )
+                            then  cross-instances
+                            else  [] : List InstanceType
+                          )
+                , c5a-large =
+                    let cross-instances =
+                          [ InstanceType.m5a-large, InstanceType.r5a-large ]
+
+                    let instancefamily =
+                          [ InstanceType.c5-large
+                          , InstanceType.c5d-large
+                          , InstanceType.c5n-large
+                          ]
+
+                    in    instancefamily
+                        # ( if    _params.permitCrossInstanceFamily
+                            then  cross-instances
+                            else  [] : List InstanceType
+                          )
+                , c5a-xlarge =
+                    let cross-instances =
+                          [ InstanceType.m5a-xlarge, InstanceType.r5a-xlarge ]
+
+                    let instancefamily =
+                          [ InstanceType.c5-xlarge
+                          , InstanceType.c5d-xlarge
+                          , InstanceType.c5n-xlarge
+                          ]
+
+                    in    instancefamily
+                        # ( if    _params.permitCrossInstanceFamily
+                            then  cross-instances
+                            else  [] : List InstanceType
+                          )
+                , c5a-2xlarge =
+                    let cross-instances =
+                          [ InstanceType.m5a-2xlarge, InstanceType.r5a-2xlarge ]
+
+                    let instancefamily =
+                          [ InstanceType.c5-2xlarge
+                          , InstanceType.c5d-2xlarge
+                          , InstanceType.c5n-2xlarge
+                          ]
+
+                    in    instancefamily
+                        # ( if    _params.permitCrossInstanceFamily
+                            then  cross-instances
+                            else  [] : List InstanceType
+                          )
+                , c5a-4xlarge =
+                    let cross-instances =
+                          [ InstanceType.m5a-4xlarge, InstanceType.r5a-4xlarge ]
+
+                    let instancefamily =
+                          [ InstanceType.c5-4xlarge
+                          , InstanceType.c5d-4xlarge
+                          , InstanceType.c5n-4xlarge
+                          ]
+
+                    in    instancefamily
+                        # ( if    _params.permitCrossInstanceFamily
+                            then  cross-instances
                             else  [] : List InstanceType
                           )
                 , c5d-large =
                     let cross-instances = [ InstanceType.m5d-large ]
 
-                    let instancefamily = [] : List InstanceType
+                    let instancefamily =
+                          let diskfree =
+                              {- diskfree - an instance type with no local disk -}
+                                let lowDiskBandwidth =
+                                    {- lowDiskBandwidth - an instance type with low EBS disk bandwidth -}
+                                      [ InstanceType.c5a-large ]
 
-                    let diskfree = [ InstanceType.c5n-large ]
+                                in    ( if    _params.permitLowerEBSBandwidth
+                                        then  lowDiskBandwidth
+                                        else  [] : List InstanceType
+                                      )
+                                    # [ InstanceType.c5-large
+                                      , InstanceType.c5n-large
+                                      ]
+
+                          in    ([] : List InstanceType)
+                              # ( if    _params.permitLosingLocalDisk
+                                  then  diskfree
+                                  else  [] : List InstanceType
+                                )
 
                     in    instancefamily
                         # ( if    _params.permitCrossInstanceFamily
                             then  cross-instances
-                            else  [] : List InstanceType
-                          )
-                        # ( if    _params.permitLosingLocalDisk
-                            then  diskfree
                             else  [] : List InstanceType
                           )
                 , c5d-xlarge =
                     let cross-instances = [ InstanceType.m5d-xlarge ]
 
-                    let instancefamily = [] : List InstanceType
+                    let instancefamily =
+                          let diskfree =
+                              {- diskfree - an instance type with no local disk -}
+                                let lowDiskBandwidth =
+                                    {- lowDiskBandwidth - an instance type with low EBS disk bandwidth -}
+                                      [ InstanceType.c5a-xlarge ]
 
-                    let diskfree = [ InstanceType.c5n-xlarge ]
+                                in    ( if    _params.permitLowerEBSBandwidth
+                                        then  lowDiskBandwidth
+                                        else  [] : List InstanceType
+                                      )
+                                    # [ InstanceType.c5-xlarge
+                                      , InstanceType.c5n-xlarge
+                                      ]
+
+                          in    ([] : List InstanceType)
+                              # ( if    _params.permitLosingLocalDisk
+                                  then  diskfree
+                                  else  [] : List InstanceType
+                                )
 
                     in    instancefamily
                         # ( if    _params.permitCrossInstanceFamily
                             then  cross-instances
-                            else  [] : List InstanceType
-                          )
-                        # ( if    _params.permitLosingLocalDisk
-                            then  diskfree
                             else  [] : List InstanceType
                           )
                 , c5d-2xlarge =
                     let cross-instances = [ InstanceType.m5d-2xlarge ]
 
-                    let instancefamily = [] : List InstanceType
+                    let instancefamily =
+                          let diskfree =
+                              {- diskfree - an instance type with no local disk -}
+                                let lowDiskBandwidth =
+                                    {- lowDiskBandwidth - an instance type with low EBS disk bandwidth -}
+                                      [ InstanceType.c5a-2xlarge ]
 
-                    let diskfree = [ InstanceType.c5n-2xlarge ]
+                                in    ( if    _params.permitLowerEBSBandwidth
+                                        then  lowDiskBandwidth
+                                        else  [] : List InstanceType
+                                      )
+                                    # [ InstanceType.c5-2xlarge
+                                      , InstanceType.c5n-2xlarge
+                                      ]
+
+                          in    ([] : List InstanceType)
+                              # ( if    _params.permitLosingLocalDisk
+                                  then  diskfree
+                                  else  [] : List InstanceType
+                                )
 
                     in    instancefamily
                         # ( if    _params.permitCrossInstanceFamily
                             then  cross-instances
-                            else  [] : List InstanceType
-                          )
-                        # ( if    _params.permitLosingLocalDisk
-                            then  diskfree
                             else  [] : List InstanceType
                           )
                 , c5d-4xlarge =
                     let cross-instances = [ InstanceType.m5d-4xlarge ]
 
-                    let instancefamily = [] : List InstanceType
+                    let instancefamily =
+                          let diskfree =
+                              {- diskfree - an instance type with no local disk -}
+                                let lowDiskBandwidth =
+                                    {- lowDiskBandwidth - an instance type with low EBS disk bandwidth -}
+                                      [ InstanceType.c5a-4xlarge ]
 
-                    let diskfree = [ InstanceType.c5n-4xlarge ]
+                                in    ( if    _params.permitLowerEBSBandwidth
+                                        then  lowDiskBandwidth
+                                        else  [] : List InstanceType
+                                      )
+                                    # [ InstanceType.c5-4xlarge
+                                      , InstanceType.c5n-4xlarge
+                                      ]
+
+                          in    ([] : List InstanceType)
+                              # ( if    _params.permitLosingLocalDisk
+                                  then  diskfree
+                                  else  [] : List InstanceType
+                                )
 
                     in    instancefamily
                         # ( if    _params.permitCrossInstanceFamily
                             then  cross-instances
-                            else  [] : List InstanceType
-                          )
-                        # ( if    _params.permitLosingLocalDisk
-                            then  diskfree
                             else  [] : List InstanceType
                           )
                 , c5n-large =
@@ -1407,6 +1626,7 @@ let alternatives =
                                       , permitWorseNetwork = True
                                       , permitLosingLocalDisk = True
                                       , permitCrossInstanceFamily = True
+                                      , permitLowerEBSBandwidth = True
                                       }
                                       instanceType
 
@@ -1438,6 +1658,10 @@ let upsize
           , c5-xlarge = Some InstanceType.c5-2xlarge
           , c5-2xlarge = Some InstanceType.c5-4xlarge
           , c5-4xlarge = None InstanceType
+          , c5a-large = Some InstanceType.c5a-xlarge
+          , c5a-xlarge = Some InstanceType.c5a-2xlarge
+          , c5a-2xlarge = Some InstanceType.c5a-4xlarge
+          , c5a-4xlarge = None InstanceType
           , c5d-large = Some InstanceType.c5d-xlarge
           , c5d-xlarge = Some InstanceType.c5d-2xlarge
           , c5d-2xlarge = Some InstanceType.c5d-4xlarge
@@ -1512,6 +1736,10 @@ in  { Type = InstanceType
     , c5-xlarge = InstanceType.c5-xlarge
     , c5-2xlarge = InstanceType.c5-2xlarge
     , c5-4xlarge = InstanceType.c5-4xlarge
+    , c5a-large = InstanceType.c5a-large
+    , c5a-xlarge = InstanceType.c5a-xlarge
+    , c5a-2xlarge = InstanceType.c5a-2xlarge
+    , c5a-4xlarge = InstanceType.c5a-4xlarge
     , c5d-large = InstanceType.c5d-large
     , c5d-xlarge = InstanceType.c5d-xlarge
     , c5d-2xlarge = InstanceType.c5d-2xlarge
