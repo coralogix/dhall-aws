@@ -400,7 +400,13 @@ let alternatives =
                 , permitLosingLocalDisk : Bool
                 , permitCrossInstanceFamily : Bool
                 }
-            , default = {=}
+            , default =
+              { permitLowerClassCPU = False
+              , permitWorseNetwork = False
+              , permitLowerEBSBandwidth = False
+              , permitLosingLocalDisk = False
+              , permitCrossInstanceFamily = False
+              }
             }
 
       let alternatives
