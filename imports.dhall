@@ -1,12 +1,13 @@
 { Prelude =
-      /usr/share/dhall/dhall-lang/dhall-lang/v15.0.0/Prelude/package.dhall
-    ? https://prelude.dhall-lang.org/v15.0.0/package.dhall sha256:6b90326dc39ab738d7ed87b970ba675c496bed0194071b332840a87261649dcd
+      /usr/share/dhall/dhall-lang/dhall-lang/v17.0.0/Prelude/package.dhall sha256:10db3c919c25e9046833df897a8ffe2701dc390fa0893d958c3430524be5a43e
+    ? https://prelude.dhall-lang.org/v17.0.0/package.dhall sha256:10db3c919c25e9046833df897a8ffe2701dc390fa0893d958c3430524be5a43e
 , Kubernetes =
-      /usr/share/dhall/dhall-lang/dhall-kubernetes/381306bcc3fd87aafe042c23bb66fe58227b85f4/package.dhall
-    ? https://raw.githubusercontent.com/dhall-lang/dhall-kubernetes/381306bcc3fd87aafe042c23bb66fe58227b85f4/package.dhall sha256:39fa32f6cbdd341cfd2be0aec017c7f6eb554a58bf0262ae222badf3b9c348c0
+      /usr/share/dhall/dhall-lang/dhall-kubernetes/v4.0.0/package.dhall sha256:d9eac5668d5ed9cb3364c0a39721d4694e4247dad16d8a82827e4619ee1d6188
+    ? https://raw.githubusercontent.com/dhall-lang/dhall-kubernetes/v4.0.0/package.dhall sha256:d9eac5668d5ed9cb3364c0a39721d4694e4247dad16d8a82827e4619ee1d6188
 , Prometheus =
-      ( /usr/share/dhall/coralogix/dhall-prometheus-operator/v4.0.1/package.dhall sha256:bcfe5eed190f43f737a09bb2e40975cfd6fabc1f026c6475b012c263502a6210
-      ).v1
-    ? ( https://raw.githubusercontent.com/coralogix/dhall-prometheus-operator/v4.0.1/package.dhall sha256:bcfe5eed190f43f737a09bb2e40975cfd6fabc1f026c6475b012c263502a6210
-      ).v1
+    let import =
+            /usr/share/dhall/coralogix/dhall-prometheus-operator/v5.0.1/package.dhall sha256:df8b3e399971ffba9d21c0bd1fe590866c549f1955e692131692295c0ac59a54
+          ? https://raw.githubusercontent.com/coralogix/dhall-prometheus-operator/v5.0.1/package.dhall sha256:df8b3e399971ffba9d21c0bd1fe590866c549f1955e692131692295c0ac59a54
+
+    in  import.v1
 }
