@@ -97,17 +97,26 @@ let render =
           in  render
       , availabilityZones =
           let render
-              : Region → List Text
-              = λ(region : Region) →
+              : Region → Bool → List Text
+              =
+                {- newCustomer flag is there because on aws new customers can
+                -- only access part of the availability zones.
+                -}
+                λ(region : Region) →
+                λ(newCustomer : Bool) →
                   merge
                     { af-south-1 =
                       [ "af-south-1a", "af-south-1b", "af-south-1c" ]
                     , ap-east-1 = [ "ap-east-1a", "ap-east-1b", "ap-east-1c" ]
                     , ap-northeast-1 =
-                      [ "ap-northeast-1a"
-                      , "ap-northeast-1b"
-                      , "ap-northeast-1c"
-                      ]
+                          [ "ap-northeast-1a"
+                          , "ap-northeast-1b"
+                          , "ap-northeast-1c"
+                          ]
+                        # ( if    newCustomer
+                            then  [] : List Text
+                            else  [ "ap-northeast-1d" ]
+                          )
                     , ap-northeast-2 =
                       [ "ap-northeast-2a"
                       , "ap-northeast-2b"
@@ -163,13 +172,79 @@ let render =
                       , "us-east-1f"
                       ]
                     , us-east-2 = [ "us-east-2a", "us-east-2b", "us-east-2c" ]
-                    , us-west-1 = [ "us-west-1a", "us-west-1b", "us-west-1c" ]
+                    , us-west-1 =
+                          [ "us-west-1a", "us-west-1b" ]
+                        # ( if    newCustomer
+                            then  [] : List Text
+                            else  [ "us-west-1c" ]
+                          )
                     , us-west-2 =
                       [ "us-west-2a", "us-west-2b", "us-west-2c", "us-west-2d" ]
                     }
                     region
 
           in  render
+      , partition =
+          let render
+              : Region → Text
+              = λ(region : Region) →
+                  merge
+                    { af-south-1 = "aws"
+                    , ap-east-1 = "aws"
+                    , ap-northeast-1 = "aws"
+                    , ap-northeast-2 = "aws"
+                    , ap-northeast-3 = "aws"
+                    , ap-south-1 = "aws"
+                    , ap-southeast-1 = "aws"
+                    , ap-southeast-2 = "aws"
+                    , ca-central-1 = "aws"
+                    , cn-north-1 = "aws-cn"
+                    , cn-northwest-1 = "aws-cn"
+                    , eu-central-1 = "aws"
+                    , eu-north-1 = "aws"
+                    , eu-south-1 = "aws"
+                    , eu-west-1 = "aws"
+                    , eu-west-2 = "aws"
+                    , eu-west-3 = "aws"
+                    , me-south-1 = "aws"
+                    , sa-east-1 = "aws"
+                    , us-gov-east-1 = "aws-us-gov"
+                    , us-gov-west-1 = "aws-us-gov"
+                    , us-east-1 = "aws"
+                    , us-east-2 = "aws"
+                    , us-west-1 = "aws"
+                    , us-west-2 = "aws"
+                    }
+                    region
+
+          in  render
       }
 
-in  { Type = Region, eu-west-1 = Region.eu-west-1, render }
+in  { Type = Region
+    , render
+    , af-south-1 = Region.af-south-1
+    , ap-east-1 = Region.ap-east-1
+    , ap-northeast-1 = Region.ap-northeast-1
+    , ap-northeast-2 = Region.ap-northeast-2
+    , ap-northeast-3 = Region.ap-northeast-3
+    , ap-south-1 = Region.ap-south-1
+    , ap-southeast-1 = Region.ap-southeast-1
+    , ap-southeast-2 = Region.ap-southeast-2
+    , ca-central-1 = Region.ca-central-1
+    , cn-north-1 = Region.cn-north-1
+    , cn-northwest-1 = Region.cn-northwest-1
+    , eu-central-1 = Region.eu-central-1
+    , eu-north-1 = Region.eu-north-1
+    , eu-south-1 = Region.eu-south-1
+    , eu-west-1 = Region.eu-west-1
+    , eu-west-2 = Region.eu-west-2
+    , eu-west-3 = Region.eu-west-3
+    , me-south-1 = Region.me-south-1
+    , sa-east-1 = Region.sa-east-1
+    , us-gov-east-1 = Region.us-gov-east-1
+    , us-gov-west-1 = Region.us-gov-west-1
+    , us-east-1 = Region.us-east-1
+    , us-east-2 = Region.us-east-2
+    , us-west-1 = Region.us-west-1
+    , us-west-2 = Region.us-west-2
+    }

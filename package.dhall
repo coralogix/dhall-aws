@@ -8,6 +8,6 @@
       ./iam/package.dhall sha256:65c46bd012183fcd601ff00ab0f5da5d14743f647f997d41ef90d2138ef0fe51
     ? ./iam/package.dhall
 , map =
-      ./map/package.dhall sha256:30efc8b6b1c9e750cea53aa523fd445203efe3b8567bd1c4f534350d35d75359
+      ./map/package.dhall sha256:5ff00f0167da193d3f3096a4d75ddfe9620b932410edb245ab27a34b27036a02
     ? ./map/package.dhall
 }
