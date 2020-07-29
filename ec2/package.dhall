@@ -1,1 +1,1 @@
-{ InstanceType = ./InstanceType.dhall, Region = ./Region.dhall }
+{ InstanceType = ./InstanceType.dhall }
