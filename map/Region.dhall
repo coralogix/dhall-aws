@@ -96,14 +96,22 @@ let render =
 
           in  render
       , availabilityZones =
+          let Params =
+                { Type =
+                    { newCustomer : { ap-northeast-1 : Bool, us-west-1 : Bool }
+                    }
+                , default.newCustomer =
+                  { ap-northeast-1 = True, us-west-1 = True }
+                }
+
           let render
-              : Region → Bool → List Text
+              : Params.Type → Region → List Text
               =
                 {- newCustomer flag is there because on aws new customers can
-                -- only access part of the availability zones.
+                -- only access some of the availability zones.
                 -}
+                λ(_params : Params.Type) →
                 λ(region : Region) →
-                λ(newCustomer : Bool) →
                   merge
                     { af-south-1 =
                       [ "af-south-1a", "af-south-1b", "af-south-1c" ]
@@ -113,7 +121,7 @@ let render =
                           , "ap-northeast-1b"
                           , "ap-northeast-1c"
                           ]
-                        # ( if    newCustomer
+                        # ( if    _params.newCustomer.ap-northeast-1
                             then  [] : List Text
                             else  [ "ap-northeast-1d" ]
                           )
@@ -174,7 +182,7 @@ let render =
                     , us-east-2 = [ "us-east-2a", "us-east-2b", "us-east-2c" ]
                     , us-west-1 =
                           [ "us-west-1a", "us-west-1b" ]
-                        # ( if    newCustomer
+                        # ( if    _params.newCustomer.us-west-1
                             then  [] : List Text
                             else  [ "us-west-1c" ]
                           )
@@ -183,7 +191,7 @@ let render =
                     }
                     region
 
-          in  render
+          in  { function = render, Params }
       , partition =
           let render
               : Region → Text
