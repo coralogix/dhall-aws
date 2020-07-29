@@ -4,5 +4,5 @@ let Kubernetes = imports.Kubernetes
 
 let Common = ./Common.dhall
 
-in    λ(common : Common.Type)
-    → Kubernetes.ServiceAccount::{ metadata = common.metadata }
+in  λ(common : Common.Type) →
+      Kubernetes.ServiceAccount::{ metadata = common.metadata }

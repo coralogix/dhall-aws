@@ -4,8 +4,8 @@ let Kubernetes = imports.Kubernetes
 
 let Common = ./Common.dhall
 
-in    λ(common : Common.Type)
-    → Kubernetes.ClusterRole::{
+in  λ(common : Common.Type) →
+      Kubernetes.ClusterRole::{
       , metadata = common.metadata ⫽ { namespace = None Text }
       , rules = Some
         [ Kubernetes.PolicyRule::{

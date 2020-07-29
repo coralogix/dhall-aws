@@ -6,11 +6,11 @@ let JSON = Prelude.JSON
 
 in  { render.list =
         let render-list
-            :   ∀(type : Type)
-              → ∀(render : type → JSON.Type)
-              → ∀(key : Text)
-              → ∀(values : List type)
-              → Prelude.Map.Type Text JSON.Type
+            : ∀(type : Type) →
+              ∀(render : type → JSON.Type) →
+              ∀(key : Text) →
+              ∀(values : List type) →
+                Prelude.Map.Type Text JSON.Type
             =
               {- The grammar of AWS IAM policy documents differentiates between three cases:
               -- 1. When there is no value for a given key, the key should not be specified.
@@ -27,11 +27,11 @@ in  { render.list =
               -- is zero, one, or greater than one.
               -}
               let render =
-                      λ(type : Type)
-                    → λ(render : type → JSON.Type)
-                    → λ(key : Text)
-                    → λ(values : List type)
-                    → let head = Prelude.List.head type values
+                    λ(type : Type) →
+                    λ(render : type → JSON.Type) →
+                    λ(key : Text) →
+                    λ(values : List type) →
+                      let head = Prelude.List.head type values
 
                       let tail = Prelude.List.drop 1 type values
 
@@ -39,14 +39,14 @@ in  { render.list =
 
                       in  merge
                             { Some =
-                                  λ(first : type)
-                                → [ Prelude.Map.keyValue
+                                λ(first : type) →
+                                  [ Prelude.Map.keyValue
                                       JSON.Type
                                       key
                                       ( merge
                                           { Some =
-                                                λ(_ : type)
-                                              → JSON.array
+                                              λ(_ : type) →
+                                                JSON.array
                                                   ( Prelude.List.map
                                                       type
                                                       JSON.Type

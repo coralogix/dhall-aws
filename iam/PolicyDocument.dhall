@@ -14,8 +14,8 @@ let Version =
           , `2008-10-17` = Version.`2008-10-17`
           , render =
               let render =
-                      λ(version : Version)
-                    → merge
+                    λ(version : Version) →
+                      merge
                         { `2012-10-17` = JSON.string "2012-10-17"
                         , `2008-10-17` = JSON.string "2008-10-17"
                         }
@@ -60,8 +60,8 @@ let Principal =
                 let render =
                       let is-empty
                           : ∀(principal : Principal.Type) → Bool
-                          =   λ(principal : Principal.Type)
-                            →     Prelude.List.null Text principal.aws
+                          = λ(principal : Principal.Type) →
+                                  Prelude.List.null Text principal.aws
                               &&  Prelude.List.null Text principal.federated
                               &&  Prelude.List.null Text principal.service
                               &&  Prelude.List.null
@@ -70,11 +70,9 @@ let Principal =
 
                       let render-list = render-list Text JSON.string
 
-                      in    λ(principal : Principal.Type)
-                          →       if is-empty principal
-
+                      in  λ(principal : Principal.Type) →
+                            if    is-empty principal
                             then  None JSON.Type
-
                             else  Some
                                     ( JSON.object
                                         (   render-list "AWS" principal.aws
@@ -101,8 +99,8 @@ let Effect =
           , Deny = Effect.Deny
           , render =
               let render =
-                      λ(effect : Effect)
-                    → merge
+                    λ(effect : Effect) →
+                      merge
                         { Allow = JSON.string "Allow"
                         , Deny = JSON.string "Deny"
                         }
@@ -128,25 +126,25 @@ let Effect =
 
 let render-opt =
       { json =
-            λ(key : Text)
-          → λ(json : Optional (Prelude.Map.Type Text JSON.Type))
-          → merge
+          λ(key : Text) →
+          λ(json : Optional (Prelude.Map.Type Text JSON.Type)) →
+            merge
               { Some =
-                    λ(json : Prelude.Map.Type Text JSON.Type)
-                  → [ Prelude.Map.keyValue JSON.Type key (JSON.object json) ]
+                  λ(json : Prelude.Map.Type Text JSON.Type) →
+                    [ Prelude.Map.keyValue JSON.Type key (JSON.object json) ]
               , None = Prelude.Map.empty Text JSON.Type
               }
               json
       , principal =
-            λ(key : Text)
-          → λ(principal : Optional Principal.Type)
-          → merge
+          λ(key : Text) →
+          λ(principal : Optional Principal.Type) →
+            merge
               { Some =
-                    λ(principal : Principal.Type)
-                  → merge
+                  λ(principal : Principal.Type) →
+                    merge
                       { Some =
-                            λ(value : JSON.Type)
-                          → [ Prelude.Map.keyValue JSON.Type key value ]
+                          λ(value : JSON.Type) →
+                            [ Prelude.Map.keyValue JSON.Type key value ]
                       , None = Prelude.Map.empty Text JSON.Type
                       }
                       (Principal.render principal)
@@ -154,12 +152,12 @@ let render-opt =
               }
               principal
       , text =
-            λ(key : Text)
-          → λ(value : Optional Text)
-          → merge
+          λ(key : Text) →
+          λ(value : Optional Text) →
+            merge
               { Some =
-                    λ(it : Text)
-                  → [ Prelude.Map.keyValue JSON.Type key (JSON.string it) ]
+                  λ(it : Text) →
+                    [ Prelude.Map.keyValue JSON.Type key (JSON.string it) ]
               , None = Prelude.Map.empty Text JSON.Type
               }
               value
@@ -185,8 +183,8 @@ let Statement =
       in    Statement
           ∧ { render =
                 let render =
-                        λ(statement : Statement.Type)
-                      → JSON.object
+                      λ(statement : Statement.Type) →
+                        JSON.object
                           (   render-opt.text "Sid" statement.sid
                             # toMap { Effect = Effect.render statement.effect }
                             # render-list
@@ -265,8 +263,8 @@ let Policy =
 
       in    Policy
           ∧ { render =
-                  λ(policy : Policy.Type)
-                → JSON.object
+                λ(policy : Policy.Type) →
+                  JSON.object
                     (   [ Prelude.Map.keyValue
                             JSON.Type
                             "Version"
@@ -281,9 +279,4 @@ let Policy =
                     )
             }
 
-in  { Effect = Effect
-    , Policy = Policy
-    , Principal = Principal
-    , Statement = Statement
-    , Version = Version
-    }
+in  { Effect, Policy, Principal, Statement, Version }

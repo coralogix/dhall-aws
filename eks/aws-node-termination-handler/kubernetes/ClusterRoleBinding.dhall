@@ -4,10 +4,10 @@ let Kubernetes = imports.Kubernetes
 
 let Common = ./Common.dhall
 
-in    λ(common : Common.Type)
-    → λ(clusterRole : Kubernetes.ClusterRole.Type)
-    → λ(serviceAccount : Kubernetes.ServiceAccount.Type)
-    → Kubernetes.ClusterRoleBinding::{
+in  λ(common : Common.Type) →
+    λ(clusterRole : Kubernetes.ClusterRole.Type) →
+    λ(serviceAccount : Kubernetes.ServiceAccount.Type) →
+      Kubernetes.ClusterRoleBinding::{
       , metadata = common.metadata ⫽ { namespace = None Text }
       , roleRef = Kubernetes.RoleRef::{
         , kind = clusterRole.kind

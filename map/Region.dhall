@@ -3,10 +3,13 @@ let Region =
       | ap-east-1
       | ap-northeast-1
       | ap-northeast-2
+      | ap-northeast-3
       | ap-south-1
       | ap-southeast-1
       | ap-southeast-2
       | ca-central-1
+      | cn-north-1
+      | cn-northwest-1
       | eu-central-1
       | eu-north-1
       | eu-south-1
@@ -15,6 +18,8 @@ let Region =
       | eu-west-3
       | me-south-1
       | sa-east-1
+      | us-gov-east-1
+      | us-gov-west-1
       | us-east-1
       | us-east-2
       | us-west-1
@@ -31,10 +36,13 @@ let render =
                     , ap-east-1 = "ap-east-1"
                     , ap-northeast-1 = "ap-northeast-1"
                     , ap-northeast-2 = "ap-northeast-2"
+                    , ap-northeast-3 = "ap-northeast-3"
                     , ap-south-1 = "ap-south-1"
                     , ap-southeast-1 = "ap-southeast-1"
                     , ap-southeast-2 = "ap-southeast-2"
                     , ca-central-1 = "ca-central-1"
+                    , cn-north-1 = "cn-north-1"
+                    , cn-northwest-1 = "cn-northwest-1"
                     , eu-central-1 = "eu-central-1"
                     , eu-north-1 = "eu-north-1"
                     , eu-south-1 = "eu-south-1"
@@ -43,6 +51,8 @@ let render =
                     , eu-west-3 = "eu-west-3"
                     , me-south-1 = "me-south-1"
                     , sa-east-1 = "sa-east-1"
+                    , us-gov-east-1 = "us-gov-east-1"
+                    , us-gov-west-1 = "us-gov-west-1"
                     , us-east-1 = "us-east-1"
                     , us-east-2 = "us-east-2"
                     , us-west-1 = "us-west-1"
@@ -60,10 +70,13 @@ let render =
                     , ap-east-1 = "Asia Pacific (Hong Kong)"
                     , ap-northeast-1 = "Asia Pacific (Tokyo)"
                     , ap-northeast-2 = "Asia Pacific (Sydney)"
+                    , ap-northeast-3 = "Asia Pacific (Osaka-Local)"
                     , ap-south-1 = "Asia Pacific (Mumbai)"
                     , ap-southeast-1 = "Asia Pacific (Singapore)"
                     , ap-southeast-2 = "Asia Pacific (Sydney)"
                     , ca-central-1 = "Canada (Central)"
+                    , cn-north-1 = "China (Beijing)"
+                    , cn-northwest-1 = "China (Ningxia)"
                     , eu-central-1 = "Europe (Frankfurt)"
                     , eu-north-1 = "Europe (Stockholm)"
                     , eu-south-1 = "Europe (Milan)"
@@ -72,6 +85,8 @@ let render =
                     , eu-west-3 = "Europe (Paris)"
                     , me-south-1 = "Middle East (Bahrain)"
                     , sa-east-1 = "South America (São Paulo)"
+                    , us-gov-east-1 = "GovCloud (US-East)"
+                    , us-gov-west-1 = "GovCloud (US-West)"
                     , us-east-1 = "US East (N. Virginia)"
                     , us-east-2 = "US East (Ohio)"
                     , us-west-1 = "US West (N. California)"
@@ -98,6 +113,11 @@ let render =
                       , "ap-northeast-2b"
                       , "ap-northeast-2c"
                       ]
+                    , ap-northeast-3 =
+                      [ "ap-northeast-3a"
+                      , "ap-northeast-3b"
+                      , "ap-northeast-3c"
+                      ]
                     , ap-south-1 =
                       [ "ap-south-1a", "ap-south-1b", "ap-south-1c" ]
                     , ap-southeast-1 =
@@ -112,6 +132,12 @@ let render =
                       ]
                     , ca-central-1 =
                       [ "ca-central-1a", "ca-central-1b", "ca-central-1c" ]
+                    , cn-north-1 = [ "cn-north-1a", "cn-north-1b" ]
+                    , cn-northwest-1 =
+                      [ "cn-northwest-1a"
+                      , "cn-northwest-1b"
+                      , "cn-northwest-1c"
+                      ]
                     , eu-central-1 =
                       [ "eu-central-1a", "eu-central-1b", "eu-central-1c" ]
                     , eu-north-1 =
@@ -124,6 +150,10 @@ let render =
                     , me-south-1 =
                       [ "me-south-1a", "me-south-1b", "me-south-1c" ]
                     , sa-east-1 = [ "sa-east-1a", "sa-east-1b", "sa-east-1c" ]
+                    , us-gov-east-1 =
+                      [ "us-gov-east-1a", "us-gov-east-1b", "us-gov-east-1c" ]
+                    , us-gov-west-1 =
+                      [ "us-gov-west-1a", "us-gov-west-1b", "us-gov-west-1c" ]
                     , us-east-1 =
                       [ "us-east-1a"
                       , "us-east-1b"
