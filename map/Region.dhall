@@ -1,3 +1,5 @@
+let Prelude = (../imports.dhall).Prelude
+
 let Region =
       < af-south-1
       | ap-east-1
@@ -26,39 +28,42 @@ let Region =
       | us-west-2
       >
 
+let name =
+      λ(region : Region) →
+        merge
+          { af-south-1 = "af-south-1"
+          , ap-east-1 = "ap-east-1"
+          , ap-northeast-1 = "ap-northeast-1"
+          , ap-northeast-2 = "ap-northeast-2"
+          , ap-northeast-3 = "ap-northeast-3"
+          , ap-south-1 = "ap-south-1"
+          , ap-southeast-1 = "ap-southeast-1"
+          , ap-southeast-2 = "ap-southeast-2"
+          , ca-central-1 = "ca-central-1"
+          , cn-north-1 = "cn-north-1"
+          , cn-northwest-1 = "cn-northwest-1"
+          , eu-central-1 = "eu-central-1"
+          , eu-north-1 = "eu-north-1"
+          , eu-south-1 = "eu-south-1"
+          , eu-west-1 = "eu-west-1"
+          , eu-west-2 = "eu-west-2"
+          , eu-west-3 = "eu-west-3"
+          , me-south-1 = "me-south-1"
+          , sa-east-1 = "sa-east-1"
+          , us-gov-east-1 = "us-gov-east-1"
+          , us-gov-west-1 = "us-gov-west-1"
+          , us-east-1 = "us-east-1"
+          , us-east-2 = "us-east-2"
+          , us-west-1 = "us-west-1"
+          , us-west-2 = "us-west-2"
+          }
+          region
+
 let render =
       { computer =
           let render
               : Region → Text
-              = λ(region : Region) →
-                  merge
-                    { af-south-1 = "af-south-1"
-                    , ap-east-1 = "ap-east-1"
-                    , ap-northeast-1 = "ap-northeast-1"
-                    , ap-northeast-2 = "ap-northeast-2"
-                    , ap-northeast-3 = "ap-northeast-3"
-                    , ap-south-1 = "ap-south-1"
-                    , ap-southeast-1 = "ap-southeast-1"
-                    , ap-southeast-2 = "ap-southeast-2"
-                    , ca-central-1 = "ca-central-1"
-                    , cn-north-1 = "cn-north-1"
-                    , cn-northwest-1 = "cn-northwest-1"
-                    , eu-central-1 = "eu-central-1"
-                    , eu-north-1 = "eu-north-1"
-                    , eu-south-1 = "eu-south-1"
-                    , eu-west-1 = "eu-west-1"
-                    , eu-west-2 = "eu-west-2"
-                    , eu-west-3 = "eu-west-3"
-                    , me-south-1 = "me-south-1"
-                    , sa-east-1 = "sa-east-1"
-                    , us-gov-east-1 = "us-gov-east-1"
-                    , us-gov-west-1 = "us-gov-west-1"
-                    , us-east-1 = "us-east-1"
-                    , us-east-2 = "us-east-2"
-                    , us-west-1 = "us-west-1"
-                    , us-west-2 = "us-west-2"
-                    }
-                    region
+              = name
 
           in  render
       , human =
@@ -98,100 +103,112 @@ let render =
       , availabilityZones =
           let Params =
                 { Type =
-                    { newCustomer : { ap-northeast-1 : Bool, us-west-1 : Bool }
+                    { new-customer : { ap-northeast-1 : Bool, us-west-1 : Bool }
                     }
-                , default.newCustomer =
+                , default.new-customer =
                   { ap-northeast-1 = True, us-west-1 = True }
                 }
 
-          let render
+          let letters
               : Params.Type → Region → List Text
               =
-                {- newCustomer flag is there because on aws new customers can
-                -- only access some of the availability zones.
+                {- new-customer flag is there because on aws new customers on
+                -- `ap-northeast-1 & us-west-1` can only access some of the availability zones.
+                -- https://aws.amazon.com/about-aws/global-infrastructure/regions_az/
                 -}
                 λ(_params : Params.Type) →
                 λ(region : Region) →
                   merge
-                    { af-south-1 =
-                      [ "af-south-1a", "af-south-1b", "af-south-1c" ]
-                    , ap-east-1 = [ "ap-east-1a", "ap-east-1b", "ap-east-1c" ]
+                    { af-south-1 = [ "a", "b", "c" ]
+                    , ap-east-1 = [ "a", "b", "c" ]
                     , ap-northeast-1 =
-                          [ "ap-northeast-1a"
-                          , "ap-northeast-1b"
-                          , "ap-northeast-1c"
-                          ]
-                        # ( if    _params.newCustomer.ap-northeast-1
+                          [ "a", "b", "c" ]
+                        # ( if    _params.new-customer.ap-northeast-1
                             then  [] : List Text
-                            else  [ "ap-northeast-1d" ]
+                            else  [ "d" ]
                           )
-                    , ap-northeast-2 =
-                      [ "ap-northeast-2a"
-                      , "ap-northeast-2b"
-                      , "ap-northeast-2c"
-                      ]
-                    , ap-northeast-3 =
-                      [ "ap-northeast-3a"
-                      , "ap-northeast-3b"
-                      , "ap-northeast-3c"
-                      ]
-                    , ap-south-1 =
-                      [ "ap-south-1a", "ap-south-1b", "ap-south-1c" ]
-                    , ap-southeast-1 =
-                      [ "ap-southeast-1a"
-                      , "ap-southeast-1b"
-                      , "ap-southeast-1c"
-                      ]
-                    , ap-southeast-2 =
-                      [ "ap-southeast-2a"
-                      , "ap-southeast-2b"
-                      , "ap-southeast-2c"
-                      ]
-                    , ca-central-1 =
-                      [ "ca-central-1a", "ca-central-1b", "ca-central-1c" ]
-                    , cn-north-1 = [ "cn-north-1a", "cn-north-1b" ]
-                    , cn-northwest-1 =
-                      [ "cn-northwest-1a"
-                      , "cn-northwest-1b"
-                      , "cn-northwest-1c"
-                      ]
-                    , eu-central-1 =
-                      [ "eu-central-1a", "eu-central-1b", "eu-central-1c" ]
-                    , eu-north-1 =
-                      [ "eu-north-1a", "eu-north-1b", "eu-north-1c" ]
-                    , eu-south-1 =
-                      [ "eu-south-1a", "eu-south-1b", "eu-south-1c" ]
-                    , eu-west-1 = [ "eu-west-1a", "eu-west-1b", "eu-west-1c" ]
-                    , eu-west-2 = [ "eu-west-2a", "eu-west-2b", "eu-west-2c" ]
-                    , eu-west-3 = [ "eu-west-3a", "eu-west-3b", "eu-west-3c" ]
-                    , me-south-1 =
-                      [ "me-south-1a", "me-south-1b", "me-south-1c" ]
-                    , sa-east-1 = [ "sa-east-1a", "sa-east-1b", "sa-east-1c" ]
-                    , us-gov-east-1 =
-                      [ "us-gov-east-1a", "us-gov-east-1b", "us-gov-east-1c" ]
-                    , us-gov-west-1 =
-                      [ "us-gov-west-1a", "us-gov-west-1b", "us-gov-west-1c" ]
-                    , us-east-1 =
-                      [ "us-east-1a"
-                      , "us-east-1b"
-                      , "us-east-1c"
-                      , "us-east-1d"
-                      , "us-east-1e"
-                      , "us-east-1f"
-                      ]
-                    , us-east-2 = [ "us-east-2a", "us-east-2b", "us-east-2c" ]
+                    , ap-northeast-2 = [ "a", "b", "c" ]
+                    , ap-northeast-3 = [ "a", "b", "c" ]
+                    , ap-south-1 = [ "a", "b", "c" ]
+                    , ap-southeast-1 = [ "a", "b", "c" ]
+                    , ap-southeast-2 = [ "a", "b", "c" ]
+                    , ca-central-1 = [ "a", "b", "c" ]
+                    , cn-north-1 = [ "a", "b" ]
+                    , cn-northwest-1 = [ "a", "b", "c" ]
+                    , eu-central-1 = [ "a", "b", "c" ]
+                    , eu-north-1 = [ "a", "b", "c" ]
+                    , eu-south-1 = [ "a", "b", "c" ]
+                    , eu-west-1 = [ "a", "b", "c" ]
+                    , eu-west-2 = [ "a", "b", "c" ]
+                    , eu-west-3 = [ "a", "b", "c" ]
+                    , me-south-1 = [ "a", "b", "c" ]
+                    , sa-east-1 = [ "a", "b", "c" ]
+                    , us-gov-east-1 = [ "a", "b", "c" ]
+                    , us-gov-west-1 = [ "a", "b", "c" ]
+                    , us-east-1 = [ "a", "b", "c", "d", "e", "f" ]
+                    , us-east-2 = [ "a", "b", "c" ]
                     , us-west-1 =
-                          [ "us-west-1a", "us-west-1b" ]
-                        # ( if    _params.newCustomer.us-west-1
+                          [ "a", "b" ]
+                        # ( if    _params.new-customer.us-west-1
                             then  [] : List Text
-                            else  [ "us-west-1c" ]
+                            else  [ "c" ]
                           )
-                    , us-west-2 =
-                      [ "us-west-2a", "us-west-2b", "us-west-2c", "us-west-2d" ]
+                    , us-west-2 = [ "a", "b", "c" ]
                     }
                     region
 
-          in  { function = render, Params }
+          let render
+              : Params.Type → Region → List Text
+              =
+                {- new-customer flag is there because on aws new customers can
+                -- only access some of the availability zones.
+                -}
+                λ(_params : Params.Type) →
+                λ(region : Region) →
+                  let generate
+                      : Region → List Text
+                      = λ(region : Region) →
+                          Prelude.List.map
+                            Text
+                            Text
+                            (λ(letter : Text) → name region ++ letter)
+                            (letters _params region)
+
+                  let test =
+                          assert
+                        :   generate Region.eu-west-1
+                          ≡ [ "eu-west-1a", "eu-west-1b", "eu-west-1c" ]
+
+                  in  merge
+                        { af-south-1 = generate Region.af-south-1
+                        , ap-east-1 = generate Region.ap-east-1
+                        , ap-northeast-1 = generate Region.ap-northeast-1
+                        , ap-northeast-2 = generate Region.ap-northeast-2
+                        , ap-northeast-3 = generate Region.ap-northeast-3
+                        , ap-south-1 = generate Region.ap-south-1
+                        , ap-southeast-1 = generate Region.ap-southeast-1
+                        , ap-southeast-2 = generate Region.ap-southeast-2
+                        , ca-central-1 = generate Region.ca-central-1
+                        , cn-north-1 = generate Region.cn-north-1
+                        , cn-northwest-1 = generate Region.cn-northwest-1
+                        , eu-central-1 = generate Region.eu-central-1
+                        , eu-north-1 = generate Region.eu-north-1
+                        , eu-south-1 = generate Region.eu-south-1
+                        , eu-west-1 = generate Region.eu-west-1
+                        , eu-west-2 = generate Region.eu-west-2
+                        , eu-west-3 = generate Region.eu-west-3
+                        , me-south-1 = generate Region.me-south-1
+                        , sa-east-1 = generate Region.sa-east-1
+                        , us-gov-east-1 = generate Region.us-gov-east-1
+                        , us-gov-west-1 = generate Region.us-gov-west-1
+                        , us-east-1 = generate Region.us-east-1
+                        , us-east-2 = generate Region.us-east-2
+                        , us-west-1 = generate Region.us-west-1
+                        , us-west-2 = generate Region.us-west-2
+                        }
+                        region
+
+          in  { function = render, Params, letters }
       , partition =
           let render
               : Region → Text
