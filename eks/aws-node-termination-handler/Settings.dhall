@@ -8,7 +8,8 @@ let Pod =
       let Image =
             { Type = { repository : Text, tag : Text, pullPolicy : Text }
             , default =
-              { repository = "amazon/aws-node-termination-handler"
+              { repository =
+                  "625240141681.dkr.ecr.eu-west-1.amazonaws.com/amazon-aws-node-termination-handler"
               , tag = "v1.5.0"
               , pullPolicy = "IfNotPresent"
               }
