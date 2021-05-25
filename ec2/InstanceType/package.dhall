@@ -4,7 +4,7 @@ in  { Type = InstanceType
     , render = ./render.dhall
     , architecture = ./architecture.dhall
     , upsize = ./upsize.dhall
-    , specs ./specs.dhall
+    , specs = ./specs.dhall
     , alternatives = ./alternatives.dhall
     , c5-large = InstanceType.c5-large
     , c5-xlarge = InstanceType.c5-xlarge
