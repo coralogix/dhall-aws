@@ -16,7 +16,7 @@ in  λ(_params : Parameters.Type) →
           else  [] : List InstanceType
         )
       # ( if    _params.permitLowerClassCPU
-          then  [ InstanceType.t3a-nano ]
+          then  [ InstanceType.t3a-micro ]
           else  [] : List InstanceType
         )
       # [ InstanceType.t3-small ]

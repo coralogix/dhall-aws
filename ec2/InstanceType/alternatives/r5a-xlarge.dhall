@@ -1,3 +1,6 @@
 let InstanceType = ../Type.dhall
 
-in  [ InstanceType.r5-xlarge, InstanceType.r5n-xlarge ]
+let Parameters = ./Parameters.dhall
+
+in  λ(_params : Parameters.Type) →
+      [ InstanceType.r5-xlarge, InstanceType.r5n-xlarge ]
