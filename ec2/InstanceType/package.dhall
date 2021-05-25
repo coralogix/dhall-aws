@@ -1,11 +1,23 @@
-let InstanceType = ./Type.dhall
+let InstanceType =
+        ./Type.dhall sha256:947c7df4c40ab53aa7ffeb81f44758df918524fc6962ff985e81f9eb5f9e433d
+      ? ./Type.dhall
 
 in  { Type = InstanceType
-    , render = ./render.dhall
-    , architecture = ./architecture.dhall
-    , upsize = ./upsize.dhall
-    , specs = ./specs.dhall
-    , alternatives = ./alternatives.dhall
+    , render =
+          ./render.dhall sha256:2ef944471004554b7725ebaa58b17d9fb070bdbd2dae7892cb842d18b876e307
+        ? ./render.dhall
+    , architecture =
+          ./architecture.dhall sha256:835a70e672a857f0bee4520708aa3343b5bc821c79260ba65421304488cf9c06
+        ? ./architecture.dhall
+    , upsize =
+          ./upsize.dhall sha256:58426c35d34c78fe86c93c384b50e7212634b28410134eb7685c9566b3326620
+        ? ./upsize.dhall
+    , specs =
+          ./specs.dhall sha256:bb596699e5296c175bb8d38f9244191be9441d482789975d26d9639ce9a5cbb3
+        ? ./specs.dhall
+    , alternatives =
+          ./alternatives.dhall sha256:7603f78c8beaf42d18a013faef4ad2b139683d702c17ce36cf3f5f9ef6ba2f8c
+        ? ./alternatives.dhall
     , c5-large = InstanceType.c5-large
     , c5-xlarge = InstanceType.c5-xlarge
     , c5-2xlarge = InstanceType.c5-2xlarge
