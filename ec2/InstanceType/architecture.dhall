@@ -1,0 +1,132 @@
+let InstanceType = ./Type.dhall
+
+let architecture =
+      let isX86
+          : InstanceType → Bool
+          = λ(instanceType : InstanceType) →
+              merge
+                { c5-large = True
+                , c5-xlarge = True
+                , c5-2xlarge = True
+                , c5-4xlarge = True
+                , c5a-large = True
+                , c5a-xlarge = True
+                , c5a-2xlarge = True
+                , c5a-4xlarge = True
+                , c5d-large = True
+                , c5d-xlarge = True
+                , c5d-2xlarge = True
+                , c5d-4xlarge = True
+                , c5n-large = True
+                , c5n-xlarge = True
+                , c5n-2xlarge = True
+                , c5n-4xlarge = True
+                , c6g-medium = False
+                , c6g-large = False
+                , c6g-xlarge = False
+                , c6g-2xlarge = False
+                , c6g-4xlarge = False
+                , c6gd-medium = False
+                , c6gd-large = False
+                , c6gd-xlarge = False
+                , c6gd-2xlarge = False
+                , c6gd-4xlarge = False
+                , c6gn-medium = False
+                , c6gn-large = False
+                , c6gn-xlarge = False
+                , c6gn-2xlarge = False
+                , c6gn-4xlarge = False
+                , m4-large = True
+                , m4-xlarge = True
+                , m4-2xlarge = True
+                , m4-4xlarge = True
+                , m5-large = True
+                , m5-xlarge = True
+                , m5-2xlarge = True
+                , m5-4xlarge = True
+                , m5d-large = True
+                , m5d-xlarge = True
+                , m5d-2xlarge = True
+                , m5d-4xlarge = True
+                , m5a-large = True
+                , m5a-xlarge = True
+                , m5a-2xlarge = True
+                , m5a-4xlarge = True
+                , m5ad-large = True
+                , m5ad-xlarge = True
+                , m5ad-2xlarge = True
+                , m5ad-4xlarge = True
+                , m5n-large = True
+                , m5n-xlarge = True
+                , m5n-2xlarge = True
+                , m5n-4xlarge = True
+                , m5dn-large = True
+                , m5dn-xlarge = True
+                , m5dn-2xlarge = True
+                , m5dn-4xlarge = True
+                , m6g-medium = False
+                , m6g-large = False
+                , m6g-xlarge = False
+                , m6g-2xlarge = False
+                , m6g-4xlarge = False
+                , m6gd-medium = False
+                , m6gd-large = False
+                , m6gd-xlarge = False
+                , m6gd-2xlarge = False
+                , m6gd-4xlarge = False
+                , r5-large = True
+                , r5-xlarge = True
+                , r5-2xlarge = True
+                , r5-4xlarge = True
+                , r5a-large = True
+                , r5a-xlarge = True
+                , r5a-2xlarge = True
+                , r5a-4xlarge = True
+                , r5n-large = True
+                , r5n-xlarge = True
+                , r5n-2xlarge = True
+                , r5n-4xlarge = True
+                , r6g-medium = False
+                , r6g-large = False
+                , r6g-xlarge = False
+                , r6g-2xlarge = False
+                , r6g-4xlarge = False
+                , r6gd-medium = False
+                , r6gd-large = False
+                , r6gd-xlarge = False
+                , r6gd-2xlarge = False
+                , r6gd-4xlarge = False
+                , t3-nano = True
+                , t3-micro = True
+                , t3-small = True
+                , t3-medium = True
+                , t3-large = True
+                , t3-xlarge = True
+                , t3-2xlarge = True
+                , t3a-nano = True
+                , t3a-micro = True
+                , t3a-small = True
+                , t3a-medium = True
+                , t3a-large = True
+                , t3a-xlarge = True
+                , t3a-2xlarge = True
+                , t4g-nano = False
+                , t4g-micro = False
+                , t4g-small = False
+                , t4g-medium = False
+                , t4g-large = False
+                , t4g-xlarge = False
+                , t4g-2xlarge = False
+                , x2gd-medium = False
+                , x2gd-large = False
+                , x2gd-xlarge = False
+                , x2gd-2xlarge = False
+                , x2gd-4xlarge = False
+                }
+                instanceType
+
+      in  { isX86
+          , isARM = λ(instanceType : InstanceType) → isX86 instanceType == False
+          }
+
+in  architecture
