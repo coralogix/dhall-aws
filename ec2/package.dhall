@@ -1,4 +1,4 @@
 { InstanceType =
-      ./InstanceType.dhall sha256:33e68e91b63bddcf6835a3f3311179e4954431e39f92ce4d801e7703c4540365
+      ./InstanceType.dhall sha256:78775efd07e18d20eefbb6c9ee40619041167698e0067f672dd6de6734873e27
     ? ./InstanceType.dhall
 }
