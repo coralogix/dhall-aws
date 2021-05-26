@@ -17,7 +17,8 @@ in  λ(_params : Parameters.Type) →
             else  [] : List InstanceType
 
       let permitCrossInstanceFamily =
-            if    _params.permitCrossInstanceFamily
+            if        _params.permitCrossInstanceFamily
+                  &&  _params.permitUnsupportedByAwsVpcCni
             then  [ InstanceType.x2gd-medium ]
             else  [] : List InstanceType
 

@@ -145,13 +145,7 @@ let alternatives =
                           ( λ(instanceType : InstanceType) →
                               let alternatives =
                                     alternatives
-                                      Parameters::{
-                                      , permitLowerClassCPU = True
-                                      , permitWorseNetwork = True
-                                      , permitLosingLocalDisk = True
-                                      , permitCrossInstanceFamily = True
-                                      , permitLowerEBSBandwidth = True
-                                      }
+                                      Parameters.permitAll
                                       instanceType
 
                               in  Prelude.List.all

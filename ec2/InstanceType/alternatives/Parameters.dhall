@@ -5,8 +5,18 @@ let Parameters =
           , permitLowerEBSBandwidth : Bool
           , permitLosingLocalDisk : Bool
           , permitCrossInstanceFamily : Bool
+          , permitUnsupportedByAwsVpcCni : Bool
           }
       , default = {=}
       }
 
-in  Parameters
+in    Parameters
+    ∧ { permitAll = Parameters::{
+        , permitLowerClassCPU = True
+        , permitWorseNetwork = True
+        , permitLowerEBSBandwidth = True
+        , permitLosingLocalDisk = True
+        , permitCrossInstanceFamily = True
+        , permitUnsupportedByAwsVpcCni = True
+        }
+      }

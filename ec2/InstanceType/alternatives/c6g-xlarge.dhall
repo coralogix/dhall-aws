@@ -3,8 +3,7 @@ let InstanceType = ../Type.dhall
 let Parameters = ./Parameters.dhall
 
 in  λ(_params : Parameters.Type) →
-      let instancefamily =
-            [ InstanceType.c6gd-xlarge, InstanceType.c6gn-xlarge ]
+      let instancefamily = [ InstanceType.c6gd-xlarge ]
 
       let permitLowerClassCPU = [] : List InstanceType
 
@@ -23,9 +22,15 @@ in  λ(_params : Parameters.Type) →
                   ]
             else  [] : List InstanceType
 
+      let permitUnsupportedByAwsVpcCni =
+            if    _params.permitUnsupportedByAwsVpcCni
+            then  [ InstanceType.c6gn-xlarge ]
+            else  [] : List InstanceType
+
       in    instancefamily
           # permitLowerClassCPU
           # permitWorseNetwork
           # permitLowerEBSBandwidth
           # permitLosingLocalDisk
           # permitCrossInstanceFamily
+          # permitUnsupportedByAwsVpcCni

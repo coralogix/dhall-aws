@@ -15,8 +15,11 @@ in  { Type = InstanceType
     , specs =
           ./specs.dhall sha256:bb596699e5296c175bb8d38f9244191be9441d482789975d26d9639ce9a5cbb3
         ? ./specs.dhall
+    , supportedByAwsVpcCni =
+          ./supportedByAwsVpcCni.dhall sha256:a47fdcbf871dc9c7de580bd2e262633df32903993c366c3e63382fdd17988f4e
+        ? ./supportedByAwsVpcCni.dhall
     , alternatives =
-          ./alternatives.dhall sha256:7603f78c8beaf42d18a013faef4ad2b139683d702c17ce36cf3f5f9ef6ba2f8c
+          ./alternatives.dhall sha256:27b2203f18f3207870f94f4dd790fd984b8a9080c48bffed09566e2074f779c3
         ? ./alternatives.dhall
     , c5-large = InstanceType.c5-large
     , c5-xlarge = InstanceType.c5-xlarge

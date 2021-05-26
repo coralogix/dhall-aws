@@ -1,5 +1,5 @@
 { ec2 =
-      ./ec2/package.dhall sha256:d72b1dfa57b0a46ed5112ffa71a260b2527a2a552c2024b321fa30b1384d6a7a
+      ./ec2/package.dhall sha256:b48825735de534fa01230bee0f10bf7a38a5e817d2d0d3d123dc6c10257a659d
     ? ./ec2/package.dhall
 , eks =
       ./eks/package.dhall sha256:41da45773969056f5fed9af1d6dd019aebf80f31b64d51629d035c1c8189ebe3

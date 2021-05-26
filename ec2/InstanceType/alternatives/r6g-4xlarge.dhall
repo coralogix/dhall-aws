@@ -14,7 +14,8 @@ in  λ(_params : Parameters.Type) →
       let permitLosingLocalDisk = [] : List InstanceType
 
       let permitCrossInstanceFamily =
-            if    _params.permitCrossInstanceFamily
+            if        _params.permitCrossInstanceFamily
+                  &&  _params.permitUnsupportedByAwsVpcCni
             then  [ InstanceType.x2gd-4xlarge ]
             else  [] : List InstanceType
 

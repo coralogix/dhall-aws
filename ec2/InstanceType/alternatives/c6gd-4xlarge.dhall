@@ -12,7 +12,8 @@ in  λ(_params : Parameters.Type) →
       let permitLowerEBSBandwidth = [] : List InstanceType
 
       let permitLosingLocalDisk =
-            if    _params.permitLosingLocalDisk
+            if        _params.permitLosingLocalDisk
+                  &&  _params.permitUnsupportedByAwsVpcCni
             then  [ InstanceType.c6gn-4xlarge ]
             else  [] : List InstanceType
 
