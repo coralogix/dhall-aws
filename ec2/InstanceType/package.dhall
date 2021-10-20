@@ -1,25 +1,25 @@
 let InstanceType =
-        ./Type.dhall sha256:947c7df4c40ab53aa7ffeb81f44758df918524fc6962ff985e81f9eb5f9e433d
+        ./Type.dhall sha256:e0e82455005d2650293242c8b732d2d4b4c83c93539891d52855d57565470069
       ? ./Type.dhall
 
 in  { Type = InstanceType
     , render =
-          ./render.dhall sha256:2ef944471004554b7725ebaa58b17d9fb070bdbd2dae7892cb842d18b876e307
+          ./render.dhall sha256:a4f1c980e1b75f718572fd754960dde3d1e97e9e09768406d8dd50e8ba523518
         ? ./render.dhall
     , architecture =
-          ./architecture.dhall sha256:835a70e672a857f0bee4520708aa3343b5bc821c79260ba65421304488cf9c06
+          ./architecture.dhall sha256:60a419829a888d63e4128db712fc3e84ebb43920d4311a87d078953f2e571d27
         ? ./architecture.dhall
     , upsize =
-          ./upsize.dhall sha256:58426c35d34c78fe86c93c384b50e7212634b28410134eb7685c9566b3326620
+          ./upsize.dhall sha256:cd9bb96c4f5dde02ef6e3cbfc29a57a58b0f4b70ad71db5dfdf672d5097f103b
         ? ./upsize.dhall
     , specs =
-          ./specs.dhall sha256:bb596699e5296c175bb8d38f9244191be9441d482789975d26d9639ce9a5cbb3
+          ./specs.dhall sha256:bc5d46a3b442b3218b91410e5cdfc9b8a744f53acdb70dc34b97e9ba693e6336
         ? ./specs.dhall
     , supportedByAwsVpcCni =
-          ./supportedByAwsVpcCni.dhall sha256:a47fdcbf871dc9c7de580bd2e262633df32903993c366c3e63382fdd17988f4e
+          ./supportedByAwsVpcCni.dhall sha256:5ba304345003945fcd120fe90261f6ff2ab6e469d1c443be542a3ac1171117d1
         ? ./supportedByAwsVpcCni.dhall
     , alternatives =
-          ./alternatives.dhall sha256:27b2203f18f3207870f94f4dd790fd984b8a9080c48bffed09566e2074f779c3
+          ./alternatives.dhall sha256:3650010a89116dca7b38388ab561e0c1808a9e10ee1a9d08e04e30fc0dddaa9c
         ? ./alternatives.dhall
     , c5-large = InstanceType.c5-large
     , c5-xlarge = InstanceType.c5-xlarge
