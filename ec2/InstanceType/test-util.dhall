@@ -74,14 +74,26 @@ in  { all =
       , InstanceType.r5-xlarge
       , InstanceType.r5-2xlarge
       , InstanceType.r5-4xlarge
+      , InstanceType.r5d-large
+      , InstanceType.r5d-xlarge
+      , InstanceType.r5d-2xlarge
+      , InstanceType.r5d-4xlarge
       , InstanceType.r5a-large
       , InstanceType.r5a-xlarge
       , InstanceType.r5a-2xlarge
       , InstanceType.r5a-4xlarge
+      , InstanceType.r5ad-large
+      , InstanceType.r5ad-xlarge
+      , InstanceType.r5ad-2xlarge
+      , InstanceType.r5ad-4xlarge
       , InstanceType.r5n-large
       , InstanceType.r5n-xlarge
       , InstanceType.r5n-2xlarge
       , InstanceType.r5n-4xlarge
+      , InstanceType.r5dn-large
+      , InstanceType.r5dn-xlarge
+      , InstanceType.r5dn-2xlarge
+      , InstanceType.r5dn-4xlarge
       , InstanceType.r6g-medium
       , InstanceType.r6g-large
       , InstanceType.r6g-xlarge
